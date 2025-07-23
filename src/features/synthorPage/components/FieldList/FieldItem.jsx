@@ -1,6 +1,9 @@
 import React from "react";
 import InputBox from "../../../../components/common/InputBox";
 import dragIcon from "../../../../assets/icons/SVG/dragIcon.svg";
+import deleteIcon from "../../../../assets/icons/SVG/deleteIcon.svg";
+
+
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -68,9 +71,9 @@ export default function FieldItem({
 
             <button
                 onClick={() => onDelete(id)}
-                className="ml-3 px-2 py-1 text-sm bg-red-600 rounded hover:bg-red-500"
+                className="ml-3 p-1 rounded hover:bg-gray-700/30 transition"
             >
-                ✕
+                <img src={deleteIcon} alt="delete" className="w-7 h-7" />
             </button>
         </div>
     );
