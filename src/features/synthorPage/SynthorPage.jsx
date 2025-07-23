@@ -6,6 +6,7 @@ export default function SynthorPage() {
 
     return (
         <div className="min-h-screen bg-synthor text-white">
+
             {/* Field Configuration */}
             <div className="space-y-1 mb-6">
                 <h2 className="text-xl font-semibold">Field Configuration</h2>

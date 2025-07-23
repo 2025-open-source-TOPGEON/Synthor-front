@@ -6,12 +6,9 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-synthor text-white flex justify-center items-start">
+        <div className="w-[calc(100%-30px)] h-[calc(100%-30px)] rounded-[30px] m-[40px] border border-white p-6">
 
-        {/* 고정된 흰색 테두리 틀 */}
-        <div className="w-[calc(100%-30px)] h-[calc(100%-30px)] rounded-[30px] m-[40px] border border-white rounded-xl p-6">
-
-          {/* Synthor 헤더 */}
-          <header className="flex justify-between items-center border-b border-gray-600 pb-4 mb-6">
+          <header className="-mx-6 border-b border-white pb-4 mb-8 px-6 flex justify-between items-center">
             <h1 className="text-2xl font-bold">Synthor</h1>
             <nav className="space-x-4 text-gray-300">
               <a href="/" className="hover:text-white">Home</a>
@@ -19,7 +16,7 @@ export default function App() {
             </nav>
           </header>
 
-          {/* 라우터로 페이지 교체 */}
+          {/* 라우터 페이지 */}
           <main>
             <AppRouter />
           </main>

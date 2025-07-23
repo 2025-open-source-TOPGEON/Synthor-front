@@ -1,5 +1,8 @@
 import React from "react";
 import InputBox from "../../../../components/common/InputBox";
+import dragIcon from "../../../../assets/icons/SVG/dragIcon.svg";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export default function FieldItem({
     id,
@@ -9,8 +12,36 @@ export default function FieldItem({
     onChange,
     onDelete,
 }) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+    };
+
     return (
-        <div className="flex items-center justify-between p-3 bg-gray-800 rounded-md mb-2">
+        <div
+            ref={setNodeRef}
+            style={style}
+            className="flex items-center justify-between p-3 bg-gray-800 rounded-md mb-2"
+        >
+
+            <img
+                src={dragIcon}
+                alt="drag"
+                className="w-5 h-5 mr-3 cursor-grab active:cursor-grabbing"
+                {...attributes}
+                {...listeners}
+            />
+
             <div className="flex items-center gap-2 flex-1">
                 <InputBox
                     value={fieldName}
