@@ -21,7 +21,7 @@ export default function SynthorPage() {
 
             <FieldList />
 
-            <div className="-mx-6 mt-40 border-t border-white px-6">
+            <div className="-mx-6 mt-28 border-t border-white px-6">
 
                 {/* Data Generation Prompt */}
                 <div className="mt-6">
@@ -68,10 +68,11 @@ export default function SynthorPage() {
                         </div>
 
                         <button
-                            className="w-[200px] h-[50px] bg-cyan-400 text-black font-bold rounded-[10px] ㄴㄴ
+                            className="w-[200px] h-[50px] bg-cyan-400 text-black font-bold rounded-[10px] 
                             shadow-[0_0_20px_5px_rgba(0,255,255,0.6)]
                             hover:shadow-[0_0_25px_8px_rgba(0,255,255,0.9)]
                             transition-all duration-300
+                            animate-neon
                             "
                         >
                             Generate Data
