@@ -41,7 +41,7 @@ export default function FieldList() {
 
             <button
                 onClick={handleAdd}
-                className="mt-2 w-full h-[60px] border-2 border-dashed border-gray-400 rounded-md text-gray-400
+                className="mt-2 w-full h-[60px] border-2 border-dashed border-gray-400 rounded-[15px] text-gray-400
                    hover:bg-[#8E25E2]/10 transition"
             >
                 + Add Field
