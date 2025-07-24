@@ -1,11 +1,13 @@
-import React from "react";
-import InputBox from "../../../../components/common/inputBox/InputBox";
+import React, { useState } from "react";
+import FieldAssembly from "./FieldAssembly";
 import dragIcon from "../../../../assets/icons/SVG/dragIcon.svg";
 import deleteIcon from "../../../../assets/icons/SVG/deleteIcon.svg";
 
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import DataTypeModal from "../DataTypeModal";
+import Constraints from "./Constrains";
 
 export default function FieldItem({
     id,
@@ -14,7 +16,6 @@ export default function FieldItem({
     constraint,
     onChange,
     onDelete,
-    onOpenTypeModal,
 }) {
     const {
         attributes,
@@ -31,6 +32,9 @@ export default function FieldItem({
         opacity: isDragging ? 0.5 : 1,
     };
 
+
+    const [isTypeOpen, setIsTypeOpen] = useState(false);
+
     return (
 
         <div
@@ -38,7 +42,7 @@ export default function FieldItem({
             style={style}
             className="flex items-start gap-3 mb-4">
 
-            {/* ✅ 드래그 아이콘 (왼쪽 컨테이너) */}
+            {/* 드래그 아이콘 (왼쪽 컨테이너) */}
             <div
                 className="w-8 h-8 flex justify-center items-center cursor-grab active:cursor-grabbing mt-8"
                 {...attributes}
@@ -49,40 +53,32 @@ export default function FieldItem({
 
 
             {/* 필드 전체 컨테이너 */}
-            <div className="flex-1 border border-gray-500 rounded-[15px] p-4 bg-transparent">
-                <div className="flex items-start justify-between gap-6">
-                    {/* Field Assembly (fieldName + fieldType) */}
-                    <div className="flex-1">
-                        <p className="text-sm text-gray-300 mb-2">Field Assembly</p>
-                        <div className="flex items-center gap-3">
-                            <InputBox
-                                value={fieldName}
-                                onChange={(e) => onChange(id, "fieldName", e.target.value)}
-                                placeholder="field_name"
+            <div className="flex-1 border border-gray-500 rounded-[15px] p-3 bg-transparent">
+
+                <div className="flex items-start justify-between gap-40">
+
+                    <div className="flex items-start justify-between flex-col">
+                        {/* Field Assembly (fieldName + fieldType) */}
+                        <p className="text-s text-gray-200 mb-2">Field Assembly</p>
+                        <div className="flex-1 border border-gray-700 rounded-[15px] p-2 bg-transparent focus-within:border-[#8E25E2] ">
+
+                            <FieldAssembly
+                                id={id}
+                                fieldName={fieldName}
+                                fieldType={fieldType}
+                                onChange={onChange}
+                                onOpenTypeModal={() => setIsTypeOpen(true)}
                             />
 
-
-                            {/* Data Type (모달 열기 버튼) */}
-                            <button
-                                onClick={() => onOpenTypeModal(id)}
-                                className="w-[140px] px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 text-left"
-                            >
-                                {fieldType || "Select Data Type"}
-                            </button>
                         </div>
                     </div>
 
+                    <Constraints
+                        id={id}
+                        constraint={constraint}
+                        onChange={onChange}
+                    />
 
-                    {/* Constraints */}
-                    <div className="w-[300px]">
-                        <p className="text-sm text-gray-300 mb-2">Constraints</p>
-                        <InputBox
-                            value={constraint}
-                            onChange={(e) => onChange(id, "constraint", e.target.value)}
-                            placeholder="constraint (e.g. under 40)"
-                            className="w-full"
-                        />
-                    </div>
                 </div>
             </div>
 
@@ -93,6 +89,11 @@ export default function FieldItem({
             >
                 <img src={deleteIcon} alt="delete" className="w-7 h-7" />
             </button>
+
+            {/*모달*/}
+            {isTypeOpen && (
+                <DataTypeModal onClose={() => setIsTypeOpen(false)} />
+            )}
 
         </div >
     );

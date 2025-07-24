@@ -10,7 +10,7 @@ export default function InputBox({
     disabled = false,
 }) {
     const baseClasses =
-        "px-3 py-2 rounded-md bg-gray-700 text-white outline-none focus:ring-2 focus:ring-blue-500";
+        "px-3 py-2 rounded-md bg-transparent text-white outline-none";
     const widthClass = fullWidth ? "w-full" : "w-auto";
 
     if (type === "textarea") {
