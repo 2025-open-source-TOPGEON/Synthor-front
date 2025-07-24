@@ -1,5 +1,5 @@
 import React from "react";
-import InputBox from "../../../../components/common/InputBox";
+import InputBox from "../../../../components/common/inputBox/InputBox";
 import dragIcon from "../../../../assets/icons/SVG/dragIcon.svg";
 import deleteIcon from "../../../../assets/icons/SVG/deleteIcon.svg";
 
