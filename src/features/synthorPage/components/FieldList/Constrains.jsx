@@ -1,3 +1,4 @@
+
 import React from "react";
 import InputBox from "../../../../components/common/inputBox/InputBox";
 
@@ -10,7 +11,7 @@ export default function Constraints({ id, constraint, onChange }) {
                     value={constraint}
                     onChange={(e) => onChange(id, "constraint", e.target.value)}
                     placeholder="constraint (e.g. under 40)"
-                    className="w-full"
+                    fullWidth={true}
                 />
             </div>
         </div>

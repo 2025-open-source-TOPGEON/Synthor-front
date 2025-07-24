@@ -6,7 +6,7 @@ export default function InputBox({
     onChange,
     placeholder = "",
     type = "text",
-    fullWidth = false,
+    fullWidth = true,
     disabled = false,
     maxLength,
 }) {
@@ -18,7 +18,7 @@ export default function InputBox({
         "px-3 py-2 rounded-md bg-transparent text-white outline-none";
     const widthClass = fullWidth ? "w-full" : "w-auto";
 
-    // ✅ 글자가 짤렸는지 감지
+    // 글자가 짤렸는지 감지
     useEffect(() => {
         const el = inputRef.current;
         if (el && el.scrollWidth > el.clientWidth) {
@@ -44,7 +44,7 @@ export default function InputBox({
 
     return (
         <div
-            className="relative inline-block"
+            className="relative w-full"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
         >
@@ -61,7 +61,7 @@ export default function InputBox({
 
             {/* 호버 시 + 글자 짤릴 때만 미리보기 */}
             {isOverflowing && isHovering && (
-                <div className="absolute top-full mt-1 left-0 max-w-[300px] p-2 bg-gray-800 text-white text-sm rounded shadow-lg z-50">
+                <div className="absolute top-full mt-1 left-0 max-w-[300px] p-2 bg-gray-700 text-white text-sm rounded shadow-lg z-50">
                     {value}
                 </div>
             )}
