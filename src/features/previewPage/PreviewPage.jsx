@@ -1,12 +1,18 @@
+import { useState } from "react";
+import GenerateButton from "../../components/common/button/GenerateButton";
+import RowInputBox from "../../components/common/inputBox/RowInputBox";
 
 export default function PreviewPage() {
+    const [rows, setRows] = useState(50);
+    const [prompt, setPrompt] = useState("");
+
     return (
-        <div className="w-full min-h-screen bg-synthor flex flex-col">
+        <div className="w-full min-h-screen bg-synthor flex flex-col relative">
 
             {/* 헤더 */}
             <header
                 className="
-                    h-[75px] 
+                    h-[90px] 
                     bg-cyan-400 text-black font-bold text-2xl
                     flex justify-between items-center
                     -mt-6 -ml-6 -mr-6 
@@ -25,11 +31,22 @@ export default function PreviewPage() {
                 </button>
             </header>
 
-
+            {/* 메인 내용 */}
             <main className="p-6 text-white">
-                {/* Preview 데이터 표시 영역 */}
-                <p>여기에 받아옴</p>
+                <p>여기에 받아오는데요
+                </p>
             </main>
+
+
+            <div
+                className="
+                    absolute bottom-6 right-6
+                    flex items-center gap-4
+                "
+            >
+                <RowInputBox value={rows} onChange={setRows} />
+                <GenerateButton onClick={() => console.log("Generated Rows:", rows, "Prompt:", prompt)} />
+            </div>
         </div>
     );
 }
