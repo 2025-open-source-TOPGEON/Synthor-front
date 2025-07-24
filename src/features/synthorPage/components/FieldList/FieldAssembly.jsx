@@ -17,6 +17,7 @@ export default function FieldAssembly({
                     value={fieldName}
                     onChange={(e) => onChange(id, "fieldName", e.target.value)}
                     placeholder="field_name"
+                    maxLength={30}
                 />
 
                 {/* Data Type (모달 열기 버튼) */}
