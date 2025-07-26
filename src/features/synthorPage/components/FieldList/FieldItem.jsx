@@ -55,7 +55,7 @@ export default function FieldItem({
             {/* 필드 전체 컨테이너 */}
             <div className="flex-1 border border-gray-500 rounded-[15px] p-3 bg-transparent">
 
-                <div className="flex items-start justify-between gap-40">
+                <div className="flex items-start justify-between gap-20">
 
                     <div className="flex items-start justify-between flex-col">
                         {/* Field Assembly (fieldName + fieldType) */}

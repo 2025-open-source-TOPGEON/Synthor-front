@@ -6,7 +6,7 @@ export default function InputBox({
     onChange,
     placeholder = "",
     type = "text",
-    fullWidth = true,
+    fullWidth = false,
     disabled = false,
     maxLength,
 }) {
