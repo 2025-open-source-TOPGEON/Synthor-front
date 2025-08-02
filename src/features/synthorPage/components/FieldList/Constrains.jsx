@@ -1,8 +1,24 @@
 
 import React from "react";
 import InputBox from "../../../../components/common/inputBox/InputBox";
+import { CATEGORY_PLACEHOLDERS } from "../../../../constants/categoryPlaceholders"
 
-export default function Constraints({ id, constraint, onChange }) {
+export default function Constraints({ id, constraint, onChange, selectedType }) {
+
+    // 선택된 타입의 placeholder 찾기
+    const placeholder = (() => {
+        if (!selectedType) return "constraint (e.g. under 40)";
+
+        for (const category in CATEGORY_PLACEHOLDERS) {
+            const match = CATEGORY_PLACEHOLDERS[category].find(
+                (item) => item.name === selectedType.name
+            );
+            if (match) return match.placeholder;
+        }
+
+        return "constraint (e.g. under 40)";
+    })();
+
     return (
         <div className="flex-1">
             <p className="text-s text-gray-200 mb-2">Constraints</p>
@@ -10,7 +26,7 @@ export default function Constraints({ id, constraint, onChange }) {
                 <InputBox
                     value={constraint}
                     onChange={(e) => onChange(id, "constraint", e.target.value)}
-                    placeholder="constraint (e.g. under 40)"
+                    placeholder={placeholder}
                     fullWidth={true}
                 />
             </div>

@@ -5,11 +5,11 @@ export const CATEGORY_EXAMPLES = {
   "User Info": [
     {
       name: "Full Name",
-      examples: ["Alice Johnson", "Minho Kim", "Sophie Dubois"]
+      examples: ["Alice Johnson", "Bovin Kim", "Sophie Dubois"]
     },
     {
       name: "First Name",
-      examples: ["Alice", "Minho", "Sophie"]
+      examples: ["Alice", "Dahye", "Sophie"]
     },
     {
       name: "Last Name",
@@ -21,7 +21,7 @@ export const CATEGORY_EXAMPLES = {
     },
     {
       name: "Username",
-      examples: ["alicej88", "minho_k", "sophieD21"]
+      examples: ["Ensharp_Fighting", "geonwoo_choi", "sophieD21"]
     },
     {
       name: "Email Address",
@@ -33,7 +33,7 @@ export const CATEGORY_EXAMPLES = {
     },
     {
       name: "Phone",
-      examples: ["010-931-9062", "010-9062-1153", "010-1234-5678"]
+      examples: ["011-931-9062", "010-9062-1153", "010-1234-5678"]
     },
     {
       name: "Avatar",
