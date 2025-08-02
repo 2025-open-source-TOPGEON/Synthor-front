@@ -3,7 +3,10 @@ import React from "react";
 import { CATEGORY_EXAMPLES } from "../../../../constants/categoryDataTypes.js";
 
 function TypeList({ selectedCategory, selectedType, onSelectType }) {
-    const items = CATEGORY_EXAMPLES[selectedCategory] || [];
+    const items = selectedCategory === "All"
+        ? Object.values(CATEGORY_EXAMPLES).flat()
+        : CATEGORY_EXAMPLES[selectedCategory] || [];
+
 
     return (
         <div className="w-72 px-4 py-2 border-r border-gray-700 overflow-y-auto">

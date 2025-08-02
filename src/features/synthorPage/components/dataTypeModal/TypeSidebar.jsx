@@ -8,6 +8,17 @@ export default function TypeSidebar({ selectedCategory, onSelectCategory }) {
     return (
         <div className="w-52 pr-4 border-r border-gray-700 overflow-y-auto">
             <ul className="space-y-2">
+                {/* All 탭 추가 */}
+                <li
+                    onClick={() => onSelectCategory("All")}
+                    className={`cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition ${selectedCategory === "All"
+                        ? "bg-cyan-400 text-black"
+                        : "text-gray-300 hover:bg-gray-700"
+                        }`}
+                >
+                    All
+                </li>
+
                 {categories.map((category) => (
                     <li
                         key={category}
