@@ -3,7 +3,7 @@ import TypeSidebar from "../dataTypeModal/TypeSidebar";
 import TypeList from "./TypeList";
 
 export default function DataTypeModal({ onClose }) {
-    const [selectedCategory, setSelectedCategory] = useState("User Info");
+    const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedType, setSelectedType] = useState(null);
 
     return (
