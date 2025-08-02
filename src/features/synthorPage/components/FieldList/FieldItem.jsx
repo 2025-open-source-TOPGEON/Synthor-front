@@ -92,7 +92,12 @@ export default function FieldItem({
 
             {/*모달*/}
             {isTypeOpen && (
-                <DataTypeModal onClose={() => setIsTypeOpen(false)} />
+                <DataTypeModal
+                    onClose={() => setIsTypeOpen(false)}
+                    onSelectType={(newType) => {
+                        onChange(id, "fieldType", newType); // fieldType 갱신
+                        setIsTypeOpen(false); // 모달 닫기
+                    }} />
             )}
 
         </div >

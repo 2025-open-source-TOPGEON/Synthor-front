@@ -6,7 +6,7 @@ import TypeConfigPanel from "./TypeConfigPanel";
 import InputBox from "../../../../components/common/inputBox/InputBox";
 import searchIcon from "../../../../assets/icons/SVG/searchIcon.svg";
 
-export default function DataTypeModal({ onClose }) {
+export default function DataTypeModal({ onClose, onSelectType }) {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedType, setSelectedType] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
@@ -79,7 +79,14 @@ export default function DataTypeModal({ onClose }) {
 
                     {/* 오른쪽 설정 창 */}
                     <div className="flex-[2] min-w-[200px] overflow-y-auto">
-                        <TypeConfigPanel selectedType={selectedType} />
+                        <TypeConfigPanel selectedType={selectedType}
+                            onConfirm={() => {
+                                if (selectedType) {
+                                    onSelectType(selectedType.name); // 선택된 타입 전달
+                                    onClose(); // 모달 닫기
+                                }
+                            }}
+                        />
                     </div>
                 </div>
             </div>

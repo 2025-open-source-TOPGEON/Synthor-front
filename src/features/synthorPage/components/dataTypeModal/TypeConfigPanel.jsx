@@ -1,7 +1,7 @@
 
 
 
-export default function TypeConfigPanel({ selectedType }) {
+export default function TypeConfigPanel({ selectedType, onConfirm }) {
     if (!selectedType) {
         return (
             <div className="w-full h-full overflow-y-auto px-4 py-2">
@@ -21,7 +21,10 @@ export default function TypeConfigPanel({ selectedType }) {
 
 
 
-            <button className="mt-2 px-4 py-2 bg-cyan-400 rounded hover:bg-cyan-700">
+            <button
+                className="mt-2 px-4 py-2 bg-cyan-400 rounded hover:bg-cyan-700"
+                onClick={onConfirm}
+            >
                 Select Type
             </button>
         </div>
