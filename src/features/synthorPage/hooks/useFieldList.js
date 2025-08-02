@@ -2,7 +2,9 @@ import { useState } from "react";
 
 export default function useFieldList() {
     const [fields, setFields] = useState([
-        { id: "1", fieldName: "", fieldType: "Full Name", constraint: "" },
+        { id: "1", fieldName: "full_name", fieldType: "Full Name", constraint: "" },
+        { id: "1", fieldName: "gender", fieldType: "Gender", constraint: "" },
+        { id: "1", fieldName: "age", fieldType: "Number", constraint: "" },
     ]);
 
     const handleChange = (id, key, value) => {
