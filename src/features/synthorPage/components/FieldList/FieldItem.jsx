@@ -6,7 +6,7 @@ import deleteIcon from "../../../../assets/icons/SVG/deleteIcon.svg";
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import DataTypeModal from "../DataTypeModal";
+import DataTypeModal from "../dataTypeModal/DataTypeModal";
 import Constraints from "./Constrains";
 
 export default function FieldItem({

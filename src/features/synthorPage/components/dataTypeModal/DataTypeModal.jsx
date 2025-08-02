@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import TypeSidebar from "../dataTypeModal/TypeSidebar";
+import TypeList from "./TypeList";
 
 export default function DataTypeModal({ onClose }) {
+    const [selectedCategory, setSelectedCategory] = useState("User Info");
+    const [selectedType, setSelectedType] = useState(null);
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div className="bg-gray-900 text-white p-6 rounded-lg w-[400px]">
-                <h3 className="text-lg font-semibold mb-4">Select A Type</h3>
+            <div className="bg-gray-900 text-white p-6 rounded-lg w-[900px] h-[600px] flex relative">
+                {/* 탭바 */}
+                <TypeSidebar
+                    selectedCategory={selectedCategory}
+                    onSelectCategory={setSelectedCategory}
+                />
 
-                <p className="text-gray-400 text-sm mb-4">
-                    데이터 타입 모달창
-                </p>
+                {/* 리스트 */}
+                <TypeList
+                    selectedCategory={selectedCategory}
+                    selectedType={selectedType}
+                    onSelectType={setSelectedType}
+                />
 
+                {/* 닫기 */}
                 <button
                     onClick={onClose}
-                    className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 w-full"
+                    className="absolute top-4 right-4 text-gray-400 hover:text-white"
                 >
-                    Close
+                    ✕
                 </button>
             </div>
         </div>

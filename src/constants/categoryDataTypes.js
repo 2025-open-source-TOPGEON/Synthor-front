@@ -1,82 +1,239 @@
 
 
-export const CATEGORY_PLACEHOLDERS = {
+export const CATEGORY_EXAMPLES = {
 
   "User Info": [
-    { name: "Full Name", placeholder: "female names in Korean locale" },
-    { name: "First Name", placeholder: "only Korean given names" },
-    { name: "Last Name", placeholder: "only Korean family names" },
-    { name: "Gender", placeholder: "Male, Female, Other" },
-    { name: "Username", placeholder: "5-15 chars, lowercase" },
-    { name: "Email Address", placeholder: "use only Gmail addresses" },
-    { name: "Password", placeholder: "min 8 chars with symbol & number" },
-    { name: "Phone", placeholder: "010-XXXX-XXXX" },
-    { name: "Avatar", placeholder: "image URL only" },
+    {
+      name: "Full Name",
+      examples: ["Alice Johnson", "Minho Kim", "Sophie Dubois"]
+    },
+    {
+      name: "First Name",
+      examples: ["Alice", "Minho", "Sophie"]
+    },
+    {
+      name: "Last Name",
+      examples: ["Johnson", "Kim", "Dubois"]
+    },
+    {
+      name: "Gender",
+      examples: ["Female", "Male", "Non-binary"]
+    },
+    {
+      name: "Username",
+      examples: ["alicej88", "minho_k", "sophieD21"]
+    },
+    {
+      name: "Email Address",
+      examples: ["alice@example.com", "minho.kim@mail.com", "sophie.d@example.org"]
+    },
+    {
+      name: "Password",
+      examples: ["p@ssW0rd!", "Qwerty123$", "Welcome#456"]
+    },
+    {
+      name: "Phone",
+      examples: ["010-931-9062", "010-9062-1153", "010-1234-5678"]
+    },
+    {
+      name: "Avatar",
+      examples: ["avatar1.png", "avatar2.jpg", "avatar3.svg"]
+    }
   ],
 
   "Address & Location": [
-    { name: "Address Line 2", placeholder: "Apt, Suite, Room name" },
-    { name: "Street Address", placeholder: "Korean road naming format" },
-    { name: "City", placeholder: "valid Korean city" },
-    { name: "State", placeholder: "Korean provinces only" },
-    { name: "Country", placeholder: "South Korea only" },
-    { name: "Postal Code", placeholder: "5-digit postal code" },
-    { name: "Latitude", placeholder: "33.0 ~ 38.6" },
-    { name: "Longitude", placeholder: "124.6 ~ 131.9" },
+    {
+      name: "Address Line 2",
+      examples: ["Apt. 201", "Suite B", "Room 5"]
+    },
+    {
+      name: "Street Address",
+      examples: ["123 Maple Street", "456 Oak Ave", "789 Pine Road"]
+    },
+    {
+      name: "City",
+      examples: ["New York", "Seoul", "Paris"]
+    },
+    {
+      name: "State",
+      examples: ["NY", "Seoul", "France"]
+    },
+    {
+      name: "Country",
+      examples: ["USA", "South Korea", "France"]
+    },
+    {
+      name: "Postal Code",
+      examples: ["10001", "04524", "75001"]
+    },
+    {
+      name: "Latitude",
+      examples: ["40.7128", "37.5665", "48.8566"]
+    },
+    {
+      name: "Longitude",
+      examples: ["-74.006", "126.978", "2.3522"]
+    }
   ],
 
   "Time & Date": [
-    { name: "Datetime", placeholder: "YYYY-MM-DDTHH:mm:ss (ISO 8601)" },
-    { name: "Time", placeholder: "24-hour format HH:mm:ss" },
+    {
+      name: "Datetime",
+      examples: ["2025-07-12 10:00:00", "2024-01-01 00:00:00", "2023-12-25 18:30:00"]
+    },
+    {
+      name: "Time",
+      examples: ["10:00:00", "00:00:00", "18:30:00"]
+    }
   ],
 
   "Company & Work": [
-    { name: "Company Name", placeholder: "realistic Korean companies" },
-    { name: "Job Title", placeholder: "Korean corporate titles only" },
-    { name: "Department (Corporate)", placeholder: "standard corporate department" },
-    { name: "Department (Retail)", placeholder: "retail-specific department" },
+    {
+      name: "Company Name",
+      examples: ["OpenAI", "Samsung", "Studio Tonic"]
+    },
+    {
+      name: "Job Title",
+      examples: ["Software Engineer", "Data Analyst", "Marketing Manager"]
+    },
+    {
+      name: "Department (Corporate)",
+      examples: ["Engineering", "Finance", "Human Resources"]
+    },
+    {
+      name: "Department (Retail)",
+      examples: ["Sales", "Customer Service", "Visual Merchandising"]
+    }
   ],
 
   "Web & Digital ID": [
-    { name: "Domain Name", placeholder: "valid domains only" },
-    { name: "URL", placeholder: "must start with https://" },
-    { name: "User Agent", placeholder: "valid browser user-agent" },
-    { name: "IP Address v4", placeholder: "valid IPv4 format" },
-    { name: "IP Address v6", placeholder: "valid IPv6 format" },
-    { name: "MAC Address", placeholder: "XX:XX:XX:XX:XX:XX format" },
+    {
+      name: "Domain Name",
+      examples: ["example.com", "openai.com", "cloudsparktech.com"]
+    },
+    {
+      name: "URL",
+      examples: ["https://example.com", "https://openai.com", "https://loreal.fr"]
+    },
+    {
+      name: "User Agent",
+      examples: ["Mozilla/5.0", "Chrome/114.0.0.0", "Safari/537.36"]
+    },
+    {
+      name: "IP Address v4",
+      examples: ["192.168.1.1", "10.0.0.5", "172.16.0.2"]
+    },
+    {
+      name: "IP Address v6",
+      examples: ["2001:0db8:85a3:0000:0000:8a2e:0370:7334", "fe80::1", "2001:db8::ff00:42:8329"]
+    },
+    {
+      name: "MAC Address",
+      examples: ["00:1A:2B:3C:4D:5E", "AA:BB:CC:DD:EE:FF", "11:22:33:44:55:66"]
+    }
   ],
 
   "App & Device": [
-    { name: "App Name", placeholder: "realistic app names" },
-    { name: "App Version", placeholder: "semantic versioning X.Y.Z" },
-    { name: "App Bundle ID", placeholder: "reverse domain format" },
-    { name: "Device Model", placeholder: "realistic phone models" },
-    { name: "Device Brand", placeholder: "popular brands only" },
-    { name: "Device OS", placeholder: "Android or iOS only" },
+    {
+      name: "App Name",
+      examples: ["PhotoSnap", "WeatherNow", "FitTrack"]
+    },
+    {
+      name: "App Version",
+      examples: ["1.0.3", "2.5.1", "3.2.0"]
+    },
+    {
+      name: "App Bundle ID",
+      examples: ["com.example.photosnap", "com.weather.now", "com.fit.track"]
+    },
+    {
+      name: "Device Model",
+      examples: ["iPhone 14", "Galaxy S23", "Pixel 7"]
+    },
+    {
+      name: "Device Brand",
+      examples: ["Apple", "Samsung", "Google"]
+    },
+    {
+      name: "Device OS",
+      examples: ["iOS 17", "Android 13", "Android 12"]
+    }
   ],
 
   "Product & Commerce": [
-    { name: "Product Name", placeholder: "realistic product names" },
-    { name: "Product Category", placeholder: "predefined categories only" },
-    { name: "Product Description", placeholder: "10-100 English words" },
-    { name: "Product Price", placeholder: "1,000 ~ 10,000,000 KRW" },
+    {
+      name: "Product Name",
+      examples: ["Wireless Earbuds", "Smartwatch", "Electric Kettle"]
+    },
+    {
+      name: "Product Category",
+      examples: ["Electronics", "Wearables", "Home Appliances"]
+    },
+    {
+      name: "Product Description",
+      examples: ["Noise-cancelling earbuds", "Fitness tracking smartwatch", "1.7L stainless steel kettle"]
+    },
+    {
+      name: "Product Price",
+      examples: ["$99.99", "$199.99", "$49.99"]
+    }
   ],
 
   "Finance & Payment": [
-    { name: "Credit Card #", placeholder: "16-digit VISA/Master format" },
-    { name: "Credit Card Type", placeholder: "VISA, MasterCard, AMEX only" },
-    { name: "Bank Name", placeholder: "Korean banks only" },
-    { name: "Bank Routing Number", placeholder: "9-digit number" },
-    { name: "IBAN", placeholder: "valid IBAN structure" },
-    { name: "SWIFT BIC", placeholder: "8 or 11-character format" },
+    {
+      name: "Credit Card #",
+      examples: ["4111 1111 1111 1111", "5500 0000 0000 0004", "3400 0000 0000 009"]
+    },
+    {
+      name: "Credit Card Type",
+      examples: ["Visa", "MasterCard", "American Express"]
+    },
+    {
+      name: "Bank Name",
+      examples: ["Chase", "Kookmin Bank", "BNP Paribas"]
+    },
+    {
+      name: "Bank Routing Number",
+      examples: ["21000021", "26009593", "30002"]
+    },
+    {
+      name: "IBAN",
+      examples: ["DE89 3704 0044 0532 0130 00", "GB29 NWBK 6016 1331 9268 19", "FR76 3000 6000 0112 3456 7890 189"]
+    },
+    {
+      name: "SWIFT BIC",
+      examples: ["CHASUS33", "CZNBKRSE", "BNPAFRPP"]
+    }
   ],
 
   "Miscellaneous": [
-    { name: "Language", placeholder: "ko or en only" },
-    { name: "Currency", placeholder: "KRW only" },
-    { name: "Color", placeholder: "HEX or English color names" },
-    { name: "Catch Phrase", placeholder: "3-10 English words" },
-    { name: "Paragraphs", placeholder: "1-3 paragraphs, 50-200 words each" },
-    { name: "Number", placeholder: "must be under 40" },
-  ],
+    {
+      name: "Language",
+      examples: ["English", "Korean", "French"]
+    },
+    {
+      name: "Currency",
+      examples: ["USD", "KRW", "EUR"]
+    },
+    {
+      name: "Color",
+      examples: ["Blue", "Mint Green", "Coral"]
+    },
+    {
+      name: "Catch Phrase",
+      examples: ["Innovate your future", "Think big, start small", "Live the moment"]
+    },
+    {
+      name: "Paragraphs",
+      examples: [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      ]
+    },
+    {
+      name: "Number",
+      examples: ["1", "100", "1000"]
+    }
+  ]
 };
