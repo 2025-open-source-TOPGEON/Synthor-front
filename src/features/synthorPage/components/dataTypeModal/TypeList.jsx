@@ -14,7 +14,7 @@ function TypeList({ selectedCategory, selectedType, onSelectType, searchQuery })
     }
 
     return (
-        <div className="w-72 px-4 py-2 border-r border-gray-700 overflow-y-auto">
+        <div className="w-full px-4 py-2 border-r border-gray-700 h-full overflow-y-auto">
             <h4 className="text-sm font-semibold mb-4 text-gray-200">
                 {items.length} types available
             </h4>
@@ -24,8 +24,8 @@ function TypeList({ selectedCategory, selectedType, onSelectType, searchQuery })
                         key={item.name}
                         onClick={() => onSelectType(item)}
                         className={`p-3 rounded-lg cursor-pointer transition ${selectedType?.name === item.name
-                                ? "bg-cyan-400 text-black"
-                                : "bg-gray-800 hover:bg-gray-700"
+                            ? "bg-cyan-400 text-black"
+                            : "bg-gray-800 hover:bg-gray-700"
                             }`}
                     >
                         <p className="font-medium mb-1">{item.name}</p>

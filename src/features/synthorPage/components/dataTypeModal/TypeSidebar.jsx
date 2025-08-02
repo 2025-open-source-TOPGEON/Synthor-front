@@ -6,7 +6,7 @@ export default function TypeSidebar({ selectedCategory, onSelectCategory }) {
     const categories = Object.keys(CATEGORY_EXAMPLES);
 
     return (
-        <div className="w-52 pr-4 border-r border-gray-700 overflow-y-auto">
+        <div className="w-full h-full px-3 py-2 border-r border-gray-700  overflow-y-auto px-3 py-2">
             <ul className="space-y-2">
                 {/* All 탭 추가 */}
                 <li

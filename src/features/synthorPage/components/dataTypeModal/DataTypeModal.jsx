@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from "react";
 import TypeSidebar from "../dataTypeModal/TypeSidebar";
 import TypeList from "./TypeList";
+import TypeConfigPanel from "./TypeConfigPanel";
 import InputBox from "../../../../components/common/inputBox/InputBox";
 import searchIcon from "../../../../assets/icons/SVG/searchIcon.svg";
 
 export default function DataTypeModal({ onClose }) {
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const [selectedType, setSelectedType] = useState(null);
+    const [selectedType, setSelectedType] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
     //모달이 열릴 때 뒷 배경 스크롤 잠금
@@ -58,18 +59,28 @@ export default function DataTypeModal({ onClose }) {
                 {/* 본문: 탭 + 리스트 */}
                 <div className="flex flex-1 overflow-hidden">
                     {/* 탭바 */}
-                    <TypeSidebar
-                        selectedCategory={selectedCategory}
-                        onSelectCategory={setSelectedCategory}
-                    />
+                    <div className="flex-[1] min-w-[200px]">
+                        <TypeSidebar
+                            selectedCategory={selectedCategory}
+                            onSelectCategory={setSelectedCategory}
+                        />
+
+                    </div>
 
                     {/* 리스트 */}
-                    <TypeList
-                        selectedCategory={selectedCategory}
-                        selectedType={selectedType}
-                        onSelectType={setSelectedType}
-                        searchQuery={searchQuery}
-                    />
+                    <div className="flex-[3] overflow-y-auto">
+                        <TypeList
+                            selectedCategory={selectedCategory}
+                            selectedType={selectedType}
+                            onSelectType={setSelectedType}
+                            searchQuery={searchQuery}
+                        />
+                    </div>
+
+                    {/* 오른쪽 설정 창 */}
+                    <div className="flex-[2] min-w-[200px] overflow-y-auto">
+                        <TypeConfigPanel selectedType={selectedType} />
+                    </div>
                 </div>
             </div>
         </div>
