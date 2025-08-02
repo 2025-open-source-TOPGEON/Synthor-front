@@ -2,11 +2,16 @@
 import React from "react";
 import { CATEGORY_EXAMPLES } from "../../../../constants/categoryDataTypes.js";
 
-function TypeList({ selectedCategory, selectedType, onSelectType }) {
-    const items = selectedCategory === "All"
+function TypeList({ selectedCategory, selectedType, onSelectType, searchQuery }) {
+    let items = selectedCategory === "All"
         ? Object.values(CATEGORY_EXAMPLES).flat()
         : CATEGORY_EXAMPLES[selectedCategory] || [];
 
+    // 검색어 필터링
+    if (searchQuery.trim()) {
+        const lower = searchQuery.toLowerCase();
+        items = items.filter((item) => item.name.toLowerCase().includes(lower));
+    }
 
     return (
         <div className="w-72 px-4 py-2 border-r border-gray-700 overflow-y-auto">
@@ -19,8 +24,8 @@ function TypeList({ selectedCategory, selectedType, onSelectType }) {
                         key={item.name}
                         onClick={() => onSelectType(item)}
                         className={`p-3 rounded-lg cursor-pointer transition ${selectedType?.name === item.name
-                            ? "bg-cyan-400 text-black"
-                            : "bg-gray-800 hover:bg-gray-700"
+                                ? "bg-cyan-400 text-black"
+                                : "bg-gray-800 hover:bg-gray-700"
                             }`}
                     >
                         <p className="font-medium mb-1">{item.name}</p>
@@ -37,5 +42,6 @@ function TypeList({ selectedCategory, selectedType, onSelectType }) {
         </div>
     );
 }
+
 
 export default TypeList; 
