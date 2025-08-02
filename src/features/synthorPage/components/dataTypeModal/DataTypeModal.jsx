@@ -1,5 +1,5 @@
-// components/DataTypeModal.jsx
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import TypeSidebar from "../dataTypeModal/TypeSidebar";
 import TypeList from "./TypeList";
 import InputBox from "../../../../components/common/inputBox/InputBox";
@@ -9,6 +9,16 @@ export default function DataTypeModal({ onClose }) {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedType, setSelectedType] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+
+    //모달이 열릴 때 뒷 배경 스크롤 잠금
+    useEffect(() => {
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = originalStyle;
+        };
+    }, []);
 
 
     return (
