@@ -23,7 +23,7 @@ export default function FieldAssembly({
                 {/* Data Type (모달 열기 버튼) */}
                 <button
                     onClick={() => onOpenTypeModal(id)}
-                    className="flex items-center w-[200px] rounded-[10px] px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 text-left">
+                    className="flex items-center w-[200px] rounded-[10px] px-4 py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-600 text-left">
                     {fieldType}
                     <img src={moveIcon} className="w-3 h-3 ml-auto" />
                 </button>
