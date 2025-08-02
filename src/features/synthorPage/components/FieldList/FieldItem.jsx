@@ -77,6 +77,7 @@ export default function FieldItem({
                         id={id}
                         constraint={constraint}
                         onChange={onChange}
+                        selectedType={{ name: fieldType }}
                     />
 
                 </div>
