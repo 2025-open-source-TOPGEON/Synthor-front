@@ -7,7 +7,6 @@ export default function Constraints({ id, constraint, onChange, selectedType }) 
 
     // 선택된 타입의 placeholder 찾기
     const placeholder = (() => {
-        if (!selectedType) return "constraint (e.g. under 40)";
 
         for (const category in CATEGORY_PLACEHOLDERS) {
             const match = CATEGORY_PLACEHOLDERS[category].find(
@@ -15,8 +14,6 @@ export default function Constraints({ id, constraint, onChange, selectedType }) 
             );
             if (match) return match.placeholder;
         }
-
-        return "constraint (e.g. under 40)";
     })();
 
     return (

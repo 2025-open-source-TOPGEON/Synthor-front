@@ -95,8 +95,9 @@ export default function FieldItem({
             {isTypeOpen && (
                 <DataTypeModal
                     onClose={() => setIsTypeOpen(false)}
-                    onSelectType={(newType) => {
-                        onChange(id, "fieldType", newType); // fieldType 갱신
+                    onSelectType={(selected) => {
+                        onChange(id, "fieldType", selected.name);
+                        onChange(id, "options", selected.options);
                         setIsTypeOpen(false); // 모달 닫기
                     }} />
             )}

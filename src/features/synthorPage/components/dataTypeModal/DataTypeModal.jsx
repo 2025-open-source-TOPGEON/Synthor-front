@@ -79,10 +79,14 @@ export default function DataTypeModal({ onClose, onSelectType }) {
 
                     {/* 오른쪽 설정 창 */}
                     <div className="flex-[2] min-w-[200px] overflow-y-auto">
-                        <TypeConfigPanel selectedType={selectedType}
-                            onConfirm={() => {
+                        <TypeConfigPanel
+                            selectedType={selectedType}
+                            onConfirm={(options) => {
                                 if (selectedType) {
-                                    onSelectType(selectedType.name); // 선택된 타입 전달
+                                    onSelectType({
+                                        name: selectedType.name,
+                                        options
+                                    }); // 선택된 타입, 조건 전달
                                     onClose(); // 모달 닫기
                                 }
                             }}
