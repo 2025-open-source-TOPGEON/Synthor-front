@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function PasswordOptions({ options, setOptions }) {
+    // 기본값 설정 (최초 렌더링 시)
+    useEffect(() => {
+        setOptions((prev) => ({
+            minimum_length: prev.minimum_length ?? 8,
+            upper: prev.upper ?? 1,
+            lower: prev.lower ?? 1,
+            numbers: prev.numbers ?? 1,
+            symbols: prev.symbols ?? 1,
+        }));
+    }, [setOptions]);
+
     const handle = (key, value) => {
         setOptions((prev) => ({ ...prev, [key]: value }));
     };
@@ -13,18 +24,17 @@ export default function PasswordOptions({ options, setOptions }) {
                 <input
                     type="number"
                     className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
-                    value={options.minimum_length || ""}
+                    value={options.minimum_length}
                     onChange={(e) => handle("minimum_length", parseInt(e.target.value) || 0)}
                     min={0}
-                    placeholder="e.g. 8"
                 />
             </div>
 
             {/* 개수 제한 필드 */}
-            <div className="grid gap-4">
+            <div className="grid grid-cols-2 gap-4">
                 {[
-                    { key: "upper", label: "Minimum Uppercase" },
-                    { key: "lower", label: "Minimum Lowercase" },
+                    { key: "upper", label: "Minimum Uppercase Letters" },
+                    { key: "lower", label: "Minimum Lowercase Letters" },
                     { key: "numbers", label: "Minimum Numbers" },
                     { key: "symbols", label: "Minimum Symbols" },
                 ].map(({ key, label }) => (
@@ -33,10 +43,9 @@ export default function PasswordOptions({ options, setOptions }) {
                         <input
                             type="number"
                             className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
-                            value={options[key] || ""}
+                            value={options[key]}
                             onChange={(e) => handle(key, parseInt(e.target.value) || 0)}
                             min={0}
-                            placeholder="e.g. 1"
                         />
                     </div>
                 ))}
