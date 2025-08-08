@@ -56,7 +56,7 @@ export default function TypeConfigPanel({
                     type="number"
                     min={0}
                     max={100}
-                    value={nullRatio}
+                    value={nullRatio.toString()}
                     onChange={(e) => {
                         const v = Number(e.target.value);
                         if (!Number.isNaN(v)) setNullRatio(Math.max(0, Math.min(100, v)));
