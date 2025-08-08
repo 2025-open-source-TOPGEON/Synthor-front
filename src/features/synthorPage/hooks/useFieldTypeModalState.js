@@ -20,9 +20,23 @@ export default function useFieldTypeModalState() {
         }));
     };
 
-    const getFieldType = (fieldId) => {
-        return fieldTypeStates[fieldId] || { type: "", options: {}, nullRatio: 0 };
+    const getFieldType = (fieldId, fields) => {
+        if (fieldTypeStates[fieldId]) {
+            return fieldTypeStates[fieldId];
+        }
+
+        const field = fields.find(f => f.id === fieldId);
+        if (field) {
+            return {
+                type: field.fieldType || "",
+                options: field.constraint?.options || {},
+                nullRatio: field.constraint?.nullRatio || 0
+            };
+        }
+
+        return { type: "", options: {}, nullRatio: 0 };
     };
+
 
     return { fieldTypeStates, setFieldType, getFieldType, updateNullRatio };
 }

@@ -26,9 +26,7 @@ export default function DataTypeModal({
     // 초기값 주입
     useEffect(() => {
         if (initialType?.type) {
-            setSelectedType({
-                name: initialType.type
-            });
+            setSelectedType({ name: initialType.type });
         } else {
             setSelectedType(null);
         }
@@ -98,7 +96,6 @@ export default function DataTypeModal({
                             initialNullRatio={initialNullRatio}
                             onConfirm={({ options, nullRatio }) => {
                                 if (!selectedType?.name) return;
-                                // ✅ 선택 반영 → 모달 닫기
                                 onSelectType({
                                     name: selectedType.name,
                                     options,

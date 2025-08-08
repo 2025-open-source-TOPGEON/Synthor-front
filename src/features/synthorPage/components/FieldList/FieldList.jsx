@@ -46,7 +46,7 @@ export default function FieldList() {
                         onDelete={handleDelete}
 
                         // 타입 설정 상태 관리 전달
-                        initialType={getFieldType(field.id)}
+                        initialType={getFieldType(field.id, fields)}
                         onSaveType={(name, options, nullRatio) =>
                             setFieldType(field.id, name, options, nullRatio)
                         }
