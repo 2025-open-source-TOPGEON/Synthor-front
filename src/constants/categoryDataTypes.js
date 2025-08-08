@@ -79,7 +79,7 @@ export const CATEGORY_EXAMPLES = {
   "Time & Date": [
     {
       name: "Datetime",
-      examples: ["2025-07-12 10:00:00", "2024-01-01 00:00:00", "2023-12-25 18:30:00"]
+      examples: ["2025-07-12 ", "1999-01", "6/7/2024"]
     },
     {
       name: "Time",
