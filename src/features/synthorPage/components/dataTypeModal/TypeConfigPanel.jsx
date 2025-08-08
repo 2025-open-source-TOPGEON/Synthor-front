@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PasswordOptions from "./options/PasswordOptions";
+import DatetimeOptions from "./options/ DatetimeOptions";
 
 export default function TypeConfigPanel({
     selectedType,
@@ -29,8 +30,13 @@ export default function TypeConfigPanel({
         switch (selectedType.name) {
             case "Password":
                 return (
-                    <PasswordOptions options={options} setOptions={setOptions} />
+                    <DatetimeOptions options={options} setOptions={setOptions} />
                 );
+            case "Datetime":
+                return (
+                    <DatetimeOptions options={options} setOptions={setOptions} />
+                );
+
             // TODO: 나머지 11종 타입도 같은 패턴으로 추가
             default:
                 return null;
