@@ -24,8 +24,8 @@ export default function PasswordOptions({ options, setOptions }) {
                 <input
                     type="number"
                     className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
-                    value={options.minimum_length.toString()}
-                    onChange={(e) => handle("minimum_length", parseInt(e.target.value) || 0)}
+                    value={String(options.minimum_length ?? 8)}
+                    onChange={(e) => handle("minimum_length", parseInt(e.target.value, 10) || 0)}
                     min={0}
                 />
             </div>
@@ -43,8 +43,9 @@ export default function PasswordOptions({ options, setOptions }) {
                         <input
                             type="number"
                             className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
-                            value={options[key].toString()}
-                            onChange={(e) => handle(key, parseInt(e.target.value) || 0)}
+                            value={String(options[key] ?? 0)}
+                            onChange={(e) => handle(key, parseInt(e.target.value, 10) || 0)}
+
                             min={0}
                         />
                     </div>

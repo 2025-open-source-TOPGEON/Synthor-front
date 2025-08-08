@@ -30,8 +30,9 @@ export default function TypeConfigPanel({
         switch (selectedType.name) {
             case "Password":
                 return (
-                    <DatetimeOptions options={options} setOptions={setOptions} />
-                );
+                    <PasswordOptions options={options} setOptions={setOptions} />
+                )
+
             case "Datetime":
                 return (
                     <DatetimeOptions options={options} setOptions={setOptions} />
