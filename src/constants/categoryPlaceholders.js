@@ -26,7 +26,7 @@ export const CATEGORY_PLACEHOLDERS = {
     ],
 
     "Time & Date": [
-        { name: "Datetime", placeholder: "YYYY-MM-DDTHH:mm:ss (ISO 8601)" },
+        { name: "Datetime", placeholder: "format must be 'm/d/yyyy'" },
         { name: "Time", placeholder: "24-hour format HH:mm:ss" },
     ],
 
