@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 
 export default function PasswordOptions({ options, setOptions }) {
@@ -33,8 +34,8 @@ export default function PasswordOptions({ options, setOptions }) {
             {/* 개수 제한 필드 */}
             <div className="grid grid-cols-2 gap-4">
                 {[
-                    { key: "upper", label: "Minimum Uppercase Letters" },
-                    { key: "lower", label: "Minimum Lowercase Letters" },
+                    { key: "upper", label: "Minimum Uppercase" },
+                    { key: "lower", label: "Minimum Lowercase" },
                     { key: "numbers", label: "Minimum Numbers" },
                     { key: "symbols", label: "Minimum Symbols" },
                 ].map(({ key, label }) => (

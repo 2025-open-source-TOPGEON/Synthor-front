@@ -16,6 +16,8 @@ export default function FieldItem({
     constraint,
     onChange,
     onDelete,
+    initialType,
+    onSaveType,
 }) {
     const {
         attributes,
@@ -94,12 +96,18 @@ export default function FieldItem({
             {/*모달*/}
             {isTypeOpen && (
                 <DataTypeModal
+                    initialType={initialType}
                     onClose={() => setIsTypeOpen(false)}
-                    onSelectType={(selected) => {
-                        onChange(id, "fieldType", selected.name);
-                        onChange(id, "options", selected.options);
-                        setIsTypeOpen(false); // 모달 닫기
-                    }} />
+                    onSelectType={({ name, options, nullRatio }) => {
+                        onChange(id, "fieldType", name);
+                        onChange(id, "options", options);
+                        onChange(id, "nullRatio", nullRatio); // optional: 화면에 보여주려면
+
+                        onSaveType(name, options, nullRatio);
+                        setIsTypeOpen(false);
+                    }}
+                />
+
             )}
 
         </div >

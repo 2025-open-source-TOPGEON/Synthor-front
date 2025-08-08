@@ -1,33 +1,48 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TypeSidebar from "../dataTypeModal/TypeSidebar";
 import TypeList from "./TypeList";
 import TypeConfigPanel from "./TypeConfigPanel";
 import InputBox from "../../../../components/common/inputBox/InputBox";
 import searchIcon from "../../../../assets/icons/SVG/searchIcon.svg";
 
-export default function DataTypeModal({ onClose, onSelectType }) {
+export default function DataTypeModal({
+    onClose,
+    onSelectType,
+    initialType, // { type, options, nullRatio }
+}) {
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const [selectedType, setSelectedType] = useState("");
+    const [selectedType, setSelectedType] = useState(null); // { name, options? }
     const [searchQuery, setSearchQuery] = useState("");
 
-    //모달이 열릴 때 뒷 배경 스크롤 잠금
+    // 모달 열릴 때 스크롤 잠금
     useEffect(() => {
         const originalStyle = window.getComputedStyle(document.body).overflow;
         document.body.style.overflow = "hidden";
-
         return () => {
             document.body.style.overflow = originalStyle;
         };
     }, []);
 
+    // 초기값 주입
+    useEffect(() => {
+        if (initialType?.type) {
+            setSelectedType({
+                name: initialType.type,
+            });
+        } else {
+            setSelectedType(null);
+        }
+    }, [initialType]);
+
+    const initialOptions = initialType?.options || {};
+    const initialNullRatio =
+        typeof initialType?.nullRatio === "number" ? initialType.nullRatio : 0;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
             <div className="bg-gray-900 text-white p-6 rounded-lg w-[900px] h-[600px] flex flex-col relative">
-
                 {/* 헤더 */}
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Select a Data Type</h2>
 
                     <div className="flex items-center gap-4">
@@ -52,9 +67,8 @@ export default function DataTypeModal({ onClose, onSelectType }) {
                     </div>
                 </div>
 
-
                 {/* 구분선 */}
-                <div className="border-b border-gray-700 mb-4"></div>
+                <div className="border-b border-gray-700 mb-4" />
 
                 {/* 본문: 탭 + 리스트 */}
                 <div className="flex flex-1 overflow-hidden">
@@ -64,7 +78,6 @@ export default function DataTypeModal({ onClose, onSelectType }) {
                             selectedCategory={selectedCategory}
                             onSelectCategory={setSelectedCategory}
                         />
-
                     </div>
 
                     {/* 리스트 */}
@@ -81,14 +94,17 @@ export default function DataTypeModal({ onClose, onSelectType }) {
                     <div className="flex-[2] min-w-[200px] overflow-y-auto">
                         <TypeConfigPanel
                             selectedType={selectedType}
-                            onConfirm={(options) => {
-                                if (selectedType) {
-                                    onSelectType({
-                                        name: selectedType.name,
-                                        options
-                                    }); // 선택된 타입, 조건 전달
-                                    onClose(); // 모달 닫기
-                                }
+                            initialOptions={initialOptions}
+                            initialNullRatio={initialNullRatio}
+                            onConfirm={({ options, nullRatio }) => {
+                                if (!selectedType?.name) return;
+                                // ✅ 선택 반영 → 모달 닫기
+                                onSelectType({
+                                    name: selectedType.name,
+                                    options,
+                                    nullRatio,
+                                });
+                                onClose();
                             }}
                         />
                     </div>

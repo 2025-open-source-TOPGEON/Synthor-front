@@ -1,18 +1,27 @@
 import React from "react";
 import useFieldList from "../../hooks/useFieldList";
+import useFieldTypeModalState from "../../hooks/useFieldTypeModalState";
 import FieldItem from "./FieldItem";
+
 import {
     DndContext,
     closestCenter,
 } from "@dnd-kit/core";
+
 import {
     SortableContext,
     verticalListSortingStrategy,
-    arrayMove,
 } from "@dnd-kit/sortable";
+
 
 export default function FieldList() {
     const { fields, handleChange, handleDelete, handleAdd, reorderFields } = useFieldList();
+
+    const {
+        fieldTypeStates,
+        setFieldType,
+        getFieldType,
+    } = useFieldTypeModalState();
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -35,6 +44,12 @@ export default function FieldList() {
                         constraint={field.constraint}
                         onChange={handleChange}
                         onDelete={handleDelete}
+
+                        // 타입 설정 상태 관리 전달
+                        initialType={getFieldType(field.id)}
+                        onSaveType={(name, options, nullRatio) =>
+                            setFieldType(field.id, name, options, nullRatio)
+                        }
                     />
                 ))}
             </SortableContext>
