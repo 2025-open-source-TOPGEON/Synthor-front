@@ -27,7 +27,7 @@ export default function DataTypeModal({
     useEffect(() => {
         if (initialType?.type) {
             setSelectedType({
-                name: initialType.type,
+                name: initialType.type
             });
         } else {
             setSelectedType(null);

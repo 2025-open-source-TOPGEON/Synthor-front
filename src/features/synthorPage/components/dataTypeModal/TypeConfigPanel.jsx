@@ -62,7 +62,6 @@ export default function TypeConfigPanel({
                         if (!Number.isNaN(v)) setNullRatio(Math.max(0, Math.min(100, v)));
                     }}
                     className="w-full bg-transparent border border-gray-700 rounded-[10px] px-3 py-2 focus:outline-none focus:border-[#8E25E2]"
-                    placeholder="0 ~ 100"
                 />
             </div>
 

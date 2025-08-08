@@ -43,7 +43,7 @@ export default function PasswordOptions({ options, setOptions }) {
                         <input
                             type="number"
                             className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
-                            value={options[key]}
+                            value={options[key].toString()}
                             onChange={(e) => handle(key, parseInt(e.target.value) || 0)}
                             min={0}
                         />
