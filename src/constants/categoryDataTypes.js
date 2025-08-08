@@ -83,7 +83,7 @@ export const CATEGORY_EXAMPLES = {
     },
     {
       name: "Time",
-      examples: ["10:00:00", "00:00:00", "18:30:00"]
+      examples: ["10:00", "00:00", "18:30"]
     }
   ],
 
