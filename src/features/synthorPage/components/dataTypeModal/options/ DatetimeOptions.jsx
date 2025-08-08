@@ -10,12 +10,13 @@ export default function DatetimeOptions({ options, setOptions }) {
         const formatDate = (date) => date.toISOString().split("T")[0];
 
         setOptions((prev) => ({
-            startDate: prev.startDate ?? formatDate(oneYearAgo),
-            endDate: prev.endDate ?? formatDate(today),
+            from: prev.from ?? formatDate(oneYearAgo),
+            to: prev.to ?? formatDate(today),
             format: prev.format ?? "m/d/yyyy",
             blank: prev.blank ?? 0,
         }));
     }, [setOptions]);
+
     const handle = (key, value) => {
         setOptions((prev) => ({ ...prev, [key]: value }));
     };
@@ -27,8 +28,8 @@ export default function DatetimeOptions({ options, setOptions }) {
                 <label className="block mb-1">Start Date</label>
                 <input
                     type="date"
-                    value={options.startDate}
-                    onChange={(e) => handle("startDate", e.target.value)}
+                    value={options.from}
+                    onChange={(e) => handle("from", e.target.value)}
                     className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
                 />
             </div>
@@ -38,30 +39,27 @@ export default function DatetimeOptions({ options, setOptions }) {
                 <label className="block mb-1">End Date</label>
                 <input
                     type="date"
-                    value={options.endDate}
-                    onChange={(e) => handle("endDate", e.target.value)}
+                    value={options.to}
+                    onChange={(e) => handle("to", e.target.value)}
                     className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
                 />
             </div>
 
-            {/* 날짜 포맷  */}
-
+            {/* 날짜 포맷 */}
             <label className="block mb-1">Format</label>
             <select
                 value={options.format}
                 onChange={(e) => handle("format", e.target.value)}
                 className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
             >
-                {/*m/d/yyyy, mm/dd/yyyy, yyyy-mm-dd, yyyy-mm, d/m/yyyy, dd/mm/yyyy */}
+                {/* m/d/yyyy, mm/dd/yyyy, yyyy-mm-dd, yyyy-mm, d/m/yyyy, dd/mm/yyyy */}
                 <option value="m/d/yyyy">m/d/yyyy</option>
                 <option value="yyyy-MM-dd">yyyy-MM-dd</option>
                 <option value="dd/MM/yyyy">dd/MM/yyyy</option>
                 <option value="yyyy-mm">yyyy-mm</option>
                 <option value="d/m/yyyy">d/m/yyyy</option>
                 <option value="dd/mm/yyyy">dd/mm/yyyy</option>
-
             </select>
-
         </div>
     );
 }
