@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 
 export default function PasswordOptions({ options, setOptions }) {
@@ -25,7 +24,7 @@ export default function PasswordOptions({ options, setOptions }) {
                 <input
                     type="number"
                     className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
-                    value={options.minimum_length}
+                    value={options.minimum_length.toString()}
                     onChange={(e) => handle("minimum_length", parseInt(e.target.value) || 0)}
                     min={0}
                 />
