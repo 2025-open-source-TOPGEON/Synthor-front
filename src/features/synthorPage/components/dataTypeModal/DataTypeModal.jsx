@@ -11,7 +11,7 @@ export default function DataTypeModal({
     initialType, // { type, options, nullRatio }
 }) {
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const [selectedType, setSelectedType] = useState(null); // { name, options? }
+    const [selectedType, setSelectedType] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     // 모달 열릴 때 스크롤 잠금
@@ -26,9 +26,7 @@ export default function DataTypeModal({
     // 초기값 주입
     useEffect(() => {
         if (initialType?.type) {
-            setSelectedType({
-                name: initialType.type
-            });
+            setSelectedType({ name: initialType.type });
         } else {
             setSelectedType(null);
         }
@@ -44,7 +42,6 @@ export default function DataTypeModal({
                 {/* 헤더 */}
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Select a Data Type</h2>
-
                     <div className="flex items-center gap-4">
                         {/* 검색창 */}
                         <div className="flex items-center bg-transparent border border-gray-700 focus-within:border-[#8E25E2] rounded-[10px] px-3 h-9">
@@ -56,7 +53,6 @@ export default function DataTypeModal({
                                 fullWidth
                             />
                         </div>
-
                         {/* X 버튼 */}
                         <button
                             onClick={onClose}
@@ -70,7 +66,7 @@ export default function DataTypeModal({
                 {/* 구분선 */}
                 <div className="border-b border-gray-700 mb-4" />
 
-                {/* 본문: 탭 + 리스트 */}
+                {/* 본문 */}
                 <div className="flex flex-1 overflow-hidden">
                     {/* 탭바 */}
                     <div className="flex-[1] min-w-[200px]">
@@ -90,23 +86,24 @@ export default function DataTypeModal({
                         />
                     </div>
 
-                    {/* 오른쪽 설정 창 */}
+                    {/* 옵션 패널 */}
                     <div className="flex-[2] min-w-[200px] overflow-y-auto">
-                        <TypeConfigPanel
-                            selectedType={selectedType}
-                            initialOptions={initialOptions}
-                            initialNullRatio={initialNullRatio}
-                            onConfirm={({ options, nullRatio }) => {
-                                if (!selectedType?.name) return;
-                                // ✅ 선택 반영 → 모달 닫기
-                                onSelectType({
-                                    name: selectedType.name,
-                                    options,
-                                    nullRatio,
-                                });
-                                onClose();
-                            }}
-                        />
+                        {selectedType && searchQuery === "" && (
+                            <TypeConfigPanel
+                                selectedType={selectedType}
+                                initialOptions={initialOptions}
+                                initialNullRatio={initialNullRatio}
+                                onConfirm={({ options, nullRatio }) => {
+                                    if (!selectedType?.name) return;
+                                    onSelectType({
+                                        name: selectedType.name,
+                                        options,
+                                        nullRatio,
+                                    });
+                                    onClose();
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

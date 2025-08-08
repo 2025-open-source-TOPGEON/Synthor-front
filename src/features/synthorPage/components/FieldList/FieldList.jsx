@@ -1,27 +1,12 @@
 import React from "react";
 import useFieldList from "../../hooks/useFieldList";
-import useFieldTypeModalState from "../../hooks/useFieldTypeModalState";
 import FieldItem from "./FieldItem";
 
-import {
-    DndContext,
-    closestCenter,
-} from "@dnd-kit/core";
-
-import {
-    SortableContext,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 export default function FieldList() {
     const { fields, handleChange, handleDelete, handleAdd, reorderFields } = useFieldList();
-
-    const {
-        fieldTypeStates,
-        setFieldType,
-        getFieldType,
-    } = useFieldTypeModalState();
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -45,11 +30,16 @@ export default function FieldList() {
                         onChange={handleChange}
                         onDelete={handleDelete}
 
-                        // 타입 설정 상태 관리 전달
-                        initialType={getFieldType(field.id)}
-                        onSaveType={(name, options, nullRatio) =>
-                            setFieldType(field.id, name, options, nullRatio)
-                        }
+                        // ✅ initialType을 명확하게 전달
+                        initialType={{
+                            type: field.fieldType,
+                            options: field.constraint?.options || {},
+                            nullRatio: field.constraint?.nullRatio || 0
+                        }}
+                        onSaveType={(name, options, nullRatio) => {
+                            handleChange(field.id, "fieldType", name);
+                            handleChange(field.id, "constraint", { options, nullRatio });
+                        }}
                     />
                 ))}
             </SortableContext>

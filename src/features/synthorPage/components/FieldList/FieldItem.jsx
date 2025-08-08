@@ -3,7 +3,6 @@ import FieldAssembly from "./FieldAssembly";
 import dragIcon from "../../../../assets/icons/SVG/dragIcon.svg";
 import deleteIcon from "../../../../assets/icons/SVG/deleteIcon.svg";
 
-
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import DataTypeModal from "../dataTypeModal/DataTypeModal";
@@ -34,17 +33,11 @@ export default function FieldItem({
         opacity: isDragging ? 0.5 : 1,
     };
 
-
     const [isTypeOpen, setIsTypeOpen] = useState(false);
 
     return (
-
-        <div
-            ref={setNodeRef}
-            style={style}
-            className="flex items-start gap-3 mb-4">
-
-            {/* 드래그 아이콘 (왼쪽 컨테이너) */}
+        <div ref={setNodeRef} style={style} className="flex items-start gap-3 mb-4">
+            {/* 드래그 아이콘 */}
             <div
                 className="w-8 h-8 flex justify-center items-center cursor-grab active:cursor-grabbing mt-8"
                 {...attributes}
@@ -53,17 +46,12 @@ export default function FieldItem({
                 <img src={dragIcon} alt="drag" className="w-5 h-5" />
             </div>
 
-
             {/* 필드 전체 컨테이너 */}
             <div className="flex-1 border border-gray-500 rounded-[15px] p-3 bg-transparent">
-
                 <div className="flex items-start justify-between gap-20">
-
                     <div className="flex items-start justify-between flex-col">
-                        {/* Field Assembly (fieldName + fieldType) */}
                         <p className="text-s text-gray-200 mb-2">Field Assembly</p>
                         <div className="flex-1 border border-gray-700 rounded-[15px] p-2 bg-transparent focus-within:border-[#8E25E2] ">
-
                             <FieldAssembly
                                 id={id}
                                 fieldName={fieldName}
@@ -71,7 +59,6 @@ export default function FieldItem({
                                 onChange={onChange}
                                 onOpenTypeModal={() => setIsTypeOpen(true)}
                             />
-
                         </div>
                     </div>
 
@@ -81,11 +68,10 @@ export default function FieldItem({
                         onChange={onChange}
                         selectedType={{ name: fieldType }}
                     />
-
                 </div>
             </div>
 
-
+            {/* 삭제 버튼 */}
             <button
                 onClick={() => onDelete(id)}
                 className="ml-3 p-1 rounded hover:bg-gray-700/30 transition"
@@ -93,23 +79,19 @@ export default function FieldItem({
                 <img src={deleteIcon} alt="delete" className="w-7 h-7" />
             </button>
 
-            {/*모달*/}
+            {/* 데이터 타입 모달 */}
             {isTypeOpen && (
                 <DataTypeModal
                     initialType={initialType}
                     onClose={() => setIsTypeOpen(false)}
                     onSelectType={({ name, options, nullRatio }) => {
                         onChange(id, "fieldType", name);
-                        onChange(id, "options", options);
-                        onChange(id, "nullRatio", nullRatio); // optional: 화면에 보여주려면
-
+                        onChange(id, "constraint", { options, nullRatio });
                         onSaveType(name, options, nullRatio);
                         setIsTypeOpen(false);
                     }}
                 />
-
             )}
-
-        </div >
+        </div>
     );
 }

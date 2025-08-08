@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function useFieldList() {
     const [fields, setFields] = useState([
         { id: "1", fieldName: "full_name", fieldType: "Full Name", constraint: "" },
-        { id: "2", fieldName: "gender", fieldType: "Gender", constraint: "" },
+        { id: "2", fieldName: "password", fieldType: "Password", constraint: "" },
         { id: "3", fieldName: "age", fieldType: "Number", constraint: "" },
     ]);
 
