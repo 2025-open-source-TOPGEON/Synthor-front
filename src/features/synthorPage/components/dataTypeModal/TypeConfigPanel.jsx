@@ -8,6 +8,7 @@ import CreditCardNuberOptions from "./options/CreditCardTypeOptions";
 import ParagraphsOptions from "./options/ParagraphsOptions";
 import NumberOptions from "./options/NumberOptions";
 import StateOptions from "./options/StateOptions";
+import CountryOptions from "./options/CountryOptions"
 
 export default function TypeConfigPanel({
     selectedType,
@@ -63,6 +64,9 @@ export default function TypeConfigPanel({
 
             case "State":
                 return <StateOptions options={options} setOptions={setOptions} />;
+
+            case "Country":
+                return <CountryOptions options={options} setOptions={setOptions} />;
 
             default:
                 return null;
