@@ -6,6 +6,9 @@ export default function useFieldList() {
         { id: "2", fieldName: "email", fieldType: "Email Address", constraint: "" },
         { id: "3", fieldName: "password", fieldType: "Password", constraint: "" },
         { id: "4", fieldName: "age", fieldType: "Number", constraint: "" },
+        { id: "5", fieldName: "date", fieldType: "Datetime", constraint: "" },
+
+
     ]);
 
     const handleChange = (id, key, value) => {

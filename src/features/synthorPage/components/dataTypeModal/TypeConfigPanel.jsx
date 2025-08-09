@@ -4,6 +4,13 @@ import DatetimeOptions from "./options/ DatetimeOptions";
 import TimeOptions from "./options/TimeOptions";
 import UrlOptions from "./options/UrlOptions";
 import CreditCardTypeOptions from "./options/CreditCardTypeOptions";
+import CreditCardNuberOptions from "./options/CreditCardTypeOptions";
+import ParagraphsOptions from "./options/ParagraphsOptions";
+import NumberOptions from "./options/NumberOptions";
+import StateOptions from "./options/StateOptions";
+import CountryOptions from "./options/CountryOptions"
+import PhoneOptions from "./options/PhoneOptions";
+import AvatarOptions from "./options/AvatarOptions";
 
 export default function TypeConfigPanel({
     selectedType,
@@ -32,14 +39,10 @@ export default function TypeConfigPanel({
     const renderOptionsUI = () => {
         switch (selectedType.name) {
             case "Password":
-                return (
-                    <PasswordOptions options={options} setOptions={setOptions} />
-                )
+                return (<PasswordOptions options={options} setOptions={setOptions} />);
 
             case "Datetime":
-                return (
-                    <DatetimeOptions options={options} setOptions={setOptions} />
-                );
+                return (<DatetimeOptions options={options} setOptions={setOptions} />);
 
             case "Time":
                 return <TimeOptions options={options} setOptions={setOptions} />;
@@ -49,6 +52,27 @@ export default function TypeConfigPanel({
 
             case "Credit Card Type":
                 return <CreditCardTypeOptions options={options} setOptions={setOptions} />;
+
+            case "Credit Card #":
+                return <CreditCardNuberOptions options={options} setOptions={setOptions} />;
+
+            case "Paragraphs":
+                return <ParagraphsOptions options={options} setOptions={setOptions} />;
+
+            case "Number":
+                return <NumberOptions options={options} setOptions={setOptions} />;
+
+            case "State":
+                return <StateOptions options={options} setOptions={setOptions} />;
+
+            case "Country":
+                return <CountryOptions options={options} setOptions={setOptions} />;
+
+            case "Phone":
+                return <PhoneOptions options={options} setOptions={setOptions} />;
+
+            case "Avatar":
+                return <AvatarOptions options={options} setOptions={setOptions} />;
 
             default:
                 return null;
