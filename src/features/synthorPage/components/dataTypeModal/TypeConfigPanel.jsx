@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PasswordOptions from "./options/PasswordOptions";
 import DatetimeOptions from "./options/ DatetimeOptions";
 import TimeOptions from "./options/TimeOptions";
+import UrlOptions from "./options/UrlOptions";
 
 export default function TypeConfigPanel({
     selectedType,
@@ -41,6 +42,9 @@ export default function TypeConfigPanel({
 
             case "Time":
                 return <TimeOptions options={options} setOptions={setOptions} />;
+
+            case "URL":
+                return <UrlOptions options={options} setOptions={setOptions} />;
 
             default:
                 return null;
