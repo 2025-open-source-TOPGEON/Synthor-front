@@ -5,6 +5,8 @@ import TimeOptions from "./options/TimeOptions";
 import UrlOptions from "./options/UrlOptions";
 import CreditCardTypeOptions from "./options/CreditCardTypeOptions";
 import CreditCardNuberOptions from "./options/CreditCardTypeOptions";
+import ParagraphsOptions from "./options/ParagraphsOptions";
+import NumberOptions from "./options/NumberOptions";
 
 export default function TypeConfigPanel({
     selectedType,
@@ -53,6 +55,12 @@ export default function TypeConfigPanel({
 
             case "Credit Card #":
                 return <CreditCardNuberOptions options={options} setOptions={setOptions} />;
+
+            case "Paragraphs":
+                return <ParagraphsOptions options={options} setOptions={setOptions} />;
+
+            case "Number":
+                return <NumberOptions options={options} setOptions={setOptions} />;
 
             default:
                 return null;
