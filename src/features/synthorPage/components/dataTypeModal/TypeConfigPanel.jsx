@@ -9,6 +9,7 @@ import ParagraphsOptions from "./options/ParagraphsOptions";
 import NumberOptions from "./options/NumberOptions";
 import StateOptions from "./options/StateOptions";
 import CountryOptions from "./options/CountryOptions"
+import PhoneOptions from "./options/PhoneOptions";
 
 export default function TypeConfigPanel({
     selectedType,
@@ -37,12 +38,10 @@ export default function TypeConfigPanel({
     const renderOptionsUI = () => {
         switch (selectedType.name) {
             case "Password":
-                return (
-                    <PasswordOptions options={options} setOptions={setOptions} />);
+                return (<PasswordOptions options={options} setOptions={setOptions} />);
 
             case "Datetime":
-                return (
-                    <DatetimeOptions options={options} setOptions={setOptions} />);
+                return (<DatetimeOptions options={options} setOptions={setOptions} />);
 
             case "Time":
                 return <TimeOptions options={options} setOptions={setOptions} />;
@@ -67,6 +66,9 @@ export default function TypeConfigPanel({
 
             case "Country":
                 return <CountryOptions options={options} setOptions={setOptions} />;
+
+            case "Phone":
+                return <PhoneOptions options={options} setOptions={setOptions} />;
 
             default:
                 return null;
