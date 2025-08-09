@@ -3,6 +3,7 @@ import PasswordOptions from "./options/PasswordOptions";
 import DatetimeOptions from "./options/ DatetimeOptions";
 import TimeOptions from "./options/TimeOptions";
 import UrlOptions from "./options/UrlOptions";
+import CreditCardTypeOptions from "./options/CreditCardTypeOptions";
 
 export default function TypeConfigPanel({
     selectedType,
@@ -45,6 +46,9 @@ export default function TypeConfigPanel({
 
             case "URL":
                 return <UrlOptions options={options} setOptions={setOptions} />;
+
+            case "Credit Card Type":
+                return <CreditCardTypeOptions options={options} setOptions={setOptions} />;
 
             default:
                 return null;
