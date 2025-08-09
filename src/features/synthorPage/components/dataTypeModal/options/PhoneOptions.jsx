@@ -32,7 +32,7 @@ export default function PhoneOptions({ options, setOptions }) {
     return (
 
         <div className="space-y-2 text-sm text-gray-200">
-            <label className="block mb-1">State Type</label>
+            <label className="block mb-1">Phone Type</label>
             <select
                 value={options.options || "###-###-####"}
                 onChange={handleChange}

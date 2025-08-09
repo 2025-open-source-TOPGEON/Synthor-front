@@ -10,6 +10,7 @@ import NumberOptions from "./options/NumberOptions";
 import StateOptions from "./options/StateOptions";
 import CountryOptions from "./options/CountryOptions"
 import PhoneOptions from "./options/PhoneOptions";
+import AvatarOptions from "./options/AvatarOptions";
 
 export default function TypeConfigPanel({
     selectedType,
@@ -69,6 +70,9 @@ export default function TypeConfigPanel({
 
             case "Phone":
                 return <PhoneOptions options={options} setOptions={setOptions} />;
+
+            case "Avatar":
+                return <AvatarOptions options={options} setOptions={setOptions} />;
 
             default:
                 return null;

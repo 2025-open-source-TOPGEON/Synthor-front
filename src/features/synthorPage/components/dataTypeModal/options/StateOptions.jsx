@@ -26,7 +26,7 @@ export default function StateOptions({ options, setOptions }) {
         ({
             options: prev.options ?? "Seoul"
         }));
-    })
+    }, [setOptions]);
 
     const handleChange = (e) => {
         setOptions((prev) => ({

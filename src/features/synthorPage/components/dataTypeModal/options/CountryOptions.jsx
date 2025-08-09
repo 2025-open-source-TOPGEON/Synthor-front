@@ -26,7 +26,7 @@ export default function CountryOptions({ options, setOptions }) {
         ({
             options: prev.options ?? "South Korea"
         }));
-    })
+    }, [setOptions]);
 
     const handleChange = (e) => {
         setOptions((prev) => ({
