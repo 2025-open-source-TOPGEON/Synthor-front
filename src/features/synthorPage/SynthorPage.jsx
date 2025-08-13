@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { FieldList, DataGenerationPrompt } from "./components";
+import useFieldList from "../synthorPage/hooks/useFieldList";
+import FieldList from "./components/FieldList/FieldList";
+import DataGenerationPrompt from "./components/DataGenerationPrompt";
 import FormatSettingsModal from "./components/FormatSettingsModal";
-import { useNavigate } from "react-router-dom";
 import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
+import PreviewButton from "./components/preview/PreviewButton";
 
 export default function SynthorPage() {
     const [prompt, setPrompt] = useState("");
     const [isFormatOpen, setIsFormatOpen] = useState(false);
     const [rows, setRows] = useState(50);
-    const navigate = useNavigate();
 
-
+    const fieldList = useFieldList(); // { fields, handleChange, handleDelete, handleAdd, reorderFields }
 
     return (
         <div>
@@ -20,14 +21,10 @@ export default function SynthorPage() {
                 <nav className="space-x-4 text-gray-300">
                     <a href="/" className="hover:text-white">Home</a>
                     <a href="/about" className="hover:text-white">About</a>
-
                 </nav>
             </header>
 
             <div className="min-h-screen bg-synthor text-white">
-
-
-                {/* Field Configuration */}
                 <div className="space-y-1 mb-6">
                     <h2 className="text-xl font-semibold">Field Configuration</h2>
                     <p className="text-gray-400 text-[15px]">
@@ -35,11 +32,15 @@ export default function SynthorPage() {
                     </p>
                 </div>
 
-                <FieldList />
+                <FieldList
+                    fields={fieldList.fields}
+                    handleChange={fieldList.handleChange}
+                    handleDelete={fieldList.handleDelete}
+                    handleAdd={fieldList.handleAdd}
+                    reorderFields={fieldList.reorderFields}
+                />
 
                 <div className="-mx-6 mt-28 border-t border-white px-6">
-
-                    {/* Data Generation Prompt */}
                     <div className="mt-6">
                         <div className="space-y-1 mb-6">
                             <h2 className="text-xl font-semibold">Data Generation Prompt</h2>
@@ -50,12 +51,7 @@ export default function SynthorPage() {
                         <DataGenerationPrompt value={prompt} onChange={setPrompt} />
                     </div>
 
-
-                    {/* 하단 버튼 4개 */}
                     <div className="flex items-center justify-between mt-6">
-
-
-                        {/* 왼쪽: Format Settings + Preview */}
                         <div className="flex gap-4">
                             <button
                                 onClick={() => setIsFormatOpen(true)}
@@ -64,32 +60,21 @@ export default function SynthorPage() {
                                 ⚙️ Format Settings
                             </button>
 
-                            <button
-                                onClick={() => navigate("/preview")}
-                                className="w-[200px] h-[50px] bg-gray-700 rounded-[10px] hover:bg-gray-600"
-                            >
-                                Preview
-                            </button>
+
+                            <PreviewButton fields={fieldList.fields} format="json" prompt={prompt} />
                         </div>
 
-
-                        {/* 오른쪽: Rows + Generate Data */}
                         <div className="flex items-center gap-4">
                             <RowInputBox value={rows} onChange={setRows} />
                             <GenerateButton onClick={() => console.log("Generated Rows:", rows, "Prompt:", prompt)} />
-
                         </div>
                     </div>
-
                 </div>
-            </div >
+            </div>
 
-            {/*모달*/}
             {isFormatOpen && (
                 <FormatSettingsModal onClose={() => setIsFormatOpen(false)} />
             )}
-
         </div>
-
     );
 }
