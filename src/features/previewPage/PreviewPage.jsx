@@ -95,6 +95,11 @@ export default function PreviewPage() {
         return null;
     }, [result]);
 
+    const displayedRows = useMemo(() => {
+        if (!parsedJsonArray) return null;
+        return parsedJsonArray.slice(0, 100);
+    }, [parsedJsonArray]);
+
     const handleGenerateAndDownload = async () => {
         try {
             const payload = {
@@ -119,7 +124,7 @@ export default function PreviewPage() {
     };
 
     return (
-        <div className="w-full min-h-screen bg-synthor flex flex-col relative">
+        <div className="w-full min-h-screen bg-synthor flex flex-col">
             {/* 헤더 */}
             <header className="h-[90px] bg-cyan-400 text-black font-bold text-2xl flex justify-between items-center -mt-6 -ml-6 -mr-6 px-6 rounded-t-[30px] shadow-[0_0_20px_5px_rgba(0,255,255,0.6)]">
                 <h1>Preview</h1>
@@ -129,7 +134,7 @@ export default function PreviewPage() {
             </header>
 
             {/* 본문 */}
-            <main className="p-6 text-white">
+            <main className="p-6 text-white flex-1">
                 {err && (
                     <div className="text-red-400 text-sm border border-red-600 rounded-[10px] p-2 mb-4">
                         {err.message || "Error"}
@@ -140,7 +145,15 @@ export default function PreviewPage() {
 
                 {result && (
                     isJsonArray && parsedJsonArray
-                        ? <PreviewTable rows={parsedJsonArray} />
+                        ? (
+                            <>
+                                <div className="text-xs text-gray-400 mb-2">
+                                    Showing {displayedRows.length} of {parsedJsonArray.length} rows
+                                    {parsedJsonArray.length > 100 && " (download includes all rows)"}
+                                </div>
+                                <PreviewTable rows={displayedRows} />
+                            </>
+                        )
                         : (
                             <pre className="text-xs bg-gray-900 text-gray-200 p-3 rounded overflow-auto max-h-[70vh]">
                                 {typeof result === "string" ? result : JSON.stringify(result, null, 2)}
@@ -149,10 +162,15 @@ export default function PreviewPage() {
                 )}
             </main>
 
-            {/* 하단 컨트롤: Generate = 생성+다운로드 */}
-            <div className="absolute bottom-6 right-6 flex items-center gap-4">
-                <RowInputBox value={rows} onChange={setRows} />
-                <GenerateButton onClick={handleGenerateAndDownload} />
+            <div className="sticky bottom-0 -mx-6 px-6 py-4 bg-synthor/90 backdrop-blur border-t border-white/10">
+                <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 justify-end">
+                    <div className="w-full md:w-auto">
+                        <RowInputBox value={rows} onChange={setRows} />
+                    </div>
+                    <div className="w-full md:w-auto">
+                        <GenerateButton className="w-full md:w-auto" onClick={handleGenerateAndDownload} />
+                    </div>
+                </div>
             </div>
         </div>
     );
