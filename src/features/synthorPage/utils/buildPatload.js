@@ -97,10 +97,10 @@ export function buildGeneratePayload(fields, count = 3) {
             const base = {
                 name: f.fieldName,
                 type,
-                prompt: f.prompt,                         // 필드별 자연어 지시
-                constraints: f.options ?? {},             // 제약조건
+                prompt: f.prompt,
+                constraints: f.options ?? {},
                 nullablePercent: typeof f.nullRatio === "number" ? f.nullRatio : 0,
-                description: f.description,               // 선택
+                description: f.description,
             };
 
             // type이 fixed일 때만 value 포함

@@ -3,7 +3,7 @@ import React from "react";
 import InputBox from "../../../../components/common/inputBox/InputBox";
 import { CATEGORY_PLACEHOLDERS } from "../../../../constants/categoryPlaceholders"
 
-export default function Constraints({ id, constraint, onChange, selectedType }) {
+export default function PromptInput({ id, prompt, onChange, selectedType }) {
 
     // 선택된 타입의 placeholder 찾기
     const placeholder = (() => {
@@ -18,11 +18,11 @@ export default function Constraints({ id, constraint, onChange, selectedType }) 
 
     return (
         <div className="flex-1">
-            <p className="text-s text-gray-200 mb-2">Constraints</p>
+            <p className="text-s text-gray-200 mb-2">Constraints Prompt</p>
             <div className="flex-1 border border-gray-700 focus-within:border-[#8E25E2] rounded-[15px] p-2 bg-transparent">
                 <InputBox
-                    value={constraint}
-                    onChange={(e) => onChange(id, "constraint", e.target.value)}
+                    value={prompt}
+                    onChange={(e) => onChange(id, "prompt", e.target.value)}
                     placeholder={placeholder}
                     fullWidth={true}
                 />
