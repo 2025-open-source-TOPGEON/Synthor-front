@@ -12,10 +12,31 @@ import useDownload from "../../hooks/useDownload";
 
 const ROWS_KEY = "synthor_rows";
 const PROMPT_KEY = "synthor_prompt";
+const FIELDS_KEY = "synthor_fields";
+
+const isHardReload = () => {
+    try {
+        const nav = performance.getEntriesByType?.("navigation")?.[0];
+        if (nav) return nav.type === "reload";
+        return performance.navigation?.type === 1;
+    } catch {
+        return false;
+    }
+};
+
+if (isHardReload()) {
+    try {
+        localStorage.removeItem(FIELDS_KEY);
+        localStorage.removeItem(ROWS_KEY);
+        localStorage.removeItem(PROMPT_KEY);
+    } catch { }
+}
 
 export default function SynthorPage() {
+
     const [isFormatOpen, setIsFormatOpen] = useState(false);
     const [prompt, setPrompt] = useState(() => localStorage.getItem(PROMPT_KEY) || "");
+
     const [rows, setRows] = useState(() => {
         const saved = localStorage.getItem(ROWS_KEY);
         return saved ? Number(saved) : 50;
@@ -32,7 +53,7 @@ export default function SynthorPage() {
             ...buildGeneratePayload(fieldList.fields, rows),
             ...(prompt ? { prompt } : {}),
         };
-        const format = "json"; // 필요 시 상태로 관리
+        const format = "json";
         const resp = await manualGenerate(format, payload);
         download(resp, { ext: format, filename: "synthorData" });
     };
