@@ -1,22 +1,50 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-export default function FormatSettingsModal({ onClose }) {
+const FORMATS = ["json", "csv", "html", "sql", "xml", "ldif"];
+
+export default function FormatSettingsModal({ value = "json", onSelect, onClose }) {
+    const panelRef = useRef(null);
+
+
+    useEffect(() => {
+        const onClickOutside = (e) => {
+            if (panelRef.current && !panelRef.current.contains(e.target)) onClose?.();
+        };
+        document.addEventListener("mousedown", onClickOutside);
+        return () => document.removeEventListener("mousedown", onClickOutside);
+    }, [onClose]);
+
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div className="bg-gray-900 text-white p-6 rounded-lg w-[400px]">
-                <h3 className="text-lg font-semibold mb-4">Format Settings</h3>
 
-                <p className="text-gray-400 text-sm mb-4">
-                    Configure the format settings for generated data here.
-                </p>
-
-                <button
-                    onClick={onClose}
-                    className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 w-full"
-                >
-                    Close
-                </button>
-            </div>
+        <div
+            ref={panelRef}
+            className="absolute bottom-full left-0 mb-2 w-48 rounded-xl border border-cyan-400  bg-gray-500 text-gray-900 shadow-lg"
+            role="menu"
+            aria-label="Select format"
+        >
+            <div className="px-3 py-2 text-xs font-semibold text-white">Format</div>
+            <ul className="max-h-60 overflow-auto">
+                {FORMATS.map((fmt) => {
+                    const active = fmt === value;
+                    return (
+                        <li key={fmt}>
+                            <button
+                                type="button"
+                                role="menuitemradio"
+                                aria-checked={active}
+                                onClick={() => {
+                                    onSelect?.(fmt);
+                                    onClose?.();
+                                }}
+                                className={`w-full text-left px-3 py-2 hover:bg-gray-400 ${active ? "font-bold" : ""
+                                    }`}
+                            >
+                                {fmt.toUpperCase()}
+                            </button>
+                        </li>
+                    );
+                })}
+            </ul>
         </div>
     );
 }

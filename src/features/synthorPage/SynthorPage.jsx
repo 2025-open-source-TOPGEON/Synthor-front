@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useFieldList from "../synthorPage/hooks/useFieldList";
 import FieldList from "./components/FieldList/FieldList";
 import DataGenerationPrompt from "./components/DataGenerationPrompt";
-import FormatSettingsModal from "./components/FormatSettingsModal";
+import FormatSettingsModal from "./components/FormatSettingsModal"; // <- 위에서 만든 팝오버
 import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
 import PreviewButton from "./components/preview/PreviewButton";
@@ -13,6 +13,7 @@ import useDownload from "../../hooks/useDownload";
 const ROWS_KEY = "synthor_rows";
 const PROMPT_KEY = "synthor_prompt";
 const FIELDS_KEY = "synthor_fields";
+const FORMAT_KEY = "synthor_format";
 
 const isHardReload = () => {
     try {
@@ -29,14 +30,19 @@ if (isHardReload()) {
         localStorage.removeItem(FIELDS_KEY);
         localStorage.removeItem(ROWS_KEY);
         localStorage.removeItem(PROMPT_KEY);
+        localStorage.removeItem(FORMAT_KEY);
     } catch { }
 }
 
 export default function SynthorPage() {
-
     const [isFormatOpen, setIsFormatOpen] = useState(false);
-    const [prompt, setPrompt] = useState(() => localStorage.getItem(PROMPT_KEY) || "");
 
+    // 기본값: 진입 시 or 사용자가 선택 안 했을 때 json
+    const [format, setFormat] = useState(() => {
+        return localStorage.getItem(FORMAT_KEY) || "json";
+    });
+
+    const [prompt, setPrompt] = useState(() => localStorage.getItem(PROMPT_KEY) || "");
     const [rows, setRows] = useState(() => {
         const saved = localStorage.getItem(ROWS_KEY);
         return saved ? Number(saved) : 50;
@@ -44,6 +50,7 @@ export default function SynthorPage() {
 
     useEffect(() => { localStorage.setItem(PROMPT_KEY, prompt); }, [prompt]);
     useEffect(() => { localStorage.setItem(ROWS_KEY, String(rows)); }, [rows]);
+    useEffect(() => { localStorage.setItem(FORMAT_KEY, format); }, [format]);
 
     const fieldList = useFieldList();
     const download = useDownload();
@@ -53,7 +60,6 @@ export default function SynthorPage() {
             ...buildGeneratePayload(fieldList.fields, rows),
             ...(prompt ? { prompt } : {}),
         };
-        const format = "json";
         const resp = await manualGenerate(format, payload);
         download(resp, { ext: format, filename: "synthorData" });
     };
@@ -97,16 +103,29 @@ export default function SynthorPage() {
 
                     <div className="flex items-center justify-between mt-6">
                         <div className="flex gap-4">
-                            <button
-                                onClick={() => setIsFormatOpen(true)}
-                                className="flex items-center justify-center gap-2 w-[200px] h-[50px] bg-gray-700 rounded-[10px] hover:bg-gray-600"
-                            >
-                                ⚙️ Format Settings
-                            </button>
+
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsFormatOpen((v) => !v)}
+                                    className="flex items-center justify-center gap-2 w-[200px] h-[50px] bg-gray-700 rounded-[10px] hover:bg-gray-600"
+                                    aria-haspopup="menu"
+                                    aria-expanded={isFormatOpen}
+                                >
+                                    ⚙️ Format: {format.toUpperCase()}
+                                </button>
+
+                                {isFormatOpen && (
+                                    <FormatSettingsModal
+                                        value={format}
+                                        onSelect={(fmt) => setFormat(fmt)}
+                                        onClose={() => setIsFormatOpen(false)}
+                                    />
+                                )}
+                            </div>
 
                             <PreviewButton
                                 fields={fieldList.fields}
-                                format="json"
+                                format={format}
                                 prompt={prompt}
                                 count={rows}
                             />
@@ -119,10 +138,6 @@ export default function SynthorPage() {
                     </div>
                 </div>
             </div>
-
-            {isFormatOpen && (
-                <FormatSettingsModal onClose={() => setIsFormatOpen(false)} />
-            )}
         </div>
     );
 }
