@@ -155,9 +155,18 @@ export default function PreviewPage() {
                             </>
                         )
                         : (
-                            <pre className="text-xs bg-gray-900 text-gray-200 p-3 rounded overflow-auto max-h-[70vh]">
+                            <pre
+                                className="
+                              font-mono text-sm leading-7 tracking-wide
+                              whitespace-pre-wrap break-words
+                              bg-gray-900 text-gray-100
+                              p-4 rounded-lg border border-gray-700 shadow-inner
+                              max-h-[70vh] overflow-auto
+                            "
+                            >
                                 {typeof result === "string" ? result : JSON.stringify(result, null, 2)}
                             </pre>
+
                         )
                 )}
             </main>
