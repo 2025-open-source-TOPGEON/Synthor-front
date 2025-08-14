@@ -61,7 +61,7 @@ const TYPE_MAP = {
     "Time": "time",
     "Latitude": "latitude",
     "Longitude": "longitude",
-    "Number (1~100)": "number_between_1_100",
+    "Number": "number_between_1_100",
 
     // 고정값(예: UI에서 "Fixed" 라벨을 쓰는 경우)
     "Fixed": "fixed",
