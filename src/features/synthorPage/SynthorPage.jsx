@@ -1,14 +1,16 @@
+
 import React, { useState, useEffect } from "react";
 import useFieldList from "../synthorPage/hooks/useFieldList";
 import FieldList from "./components/FieldList/FieldList";
 import DataGenerationPrompt from "./components/DataGenerationPrompt";
-import FormatSettingsModal from "./components/FormatSettingsModal"; // <- 위에서 만든 팝오버
+import FormatSettingsModal from "./components/FormatSettingsModal";
 import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
 import PreviewButton from "./components/preview/PreviewButton";
 import { buildGeneratePayload } from "./utils/buildPatload";
 import { manualGenerate } from "../../api/dataApi";
 import useDownload from "../../hooks/useDownload";
+import PreviewModal from "../previewPage/PreviewModal";
 
 const ROWS_KEY = "synthor_rows";
 const PROMPT_KEY = "synthor_prompt";
@@ -36,8 +38,8 @@ if (isHardReload()) {
 
 export default function SynthorPage() {
     const [isFormatOpen, setIsFormatOpen] = useState(false);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false); // ✅ 모달 상태
 
-    // 기본값: 진입 시 or 사용자가 선택 안 했을 때 json
     const [format, setFormat] = useState(() => {
         return localStorage.getItem(FORMAT_KEY) || "json";
     });
@@ -103,7 +105,6 @@ export default function SynthorPage() {
 
                     <div className="flex items-center justify-between mt-6">
                         <div className="flex gap-4">
-
                             <div className="relative">
                                 <button
                                     onClick={() => setIsFormatOpen((v) => !v)}
@@ -124,10 +125,7 @@ export default function SynthorPage() {
                             </div>
 
                             <PreviewButton
-                                fields={fieldList.fields}
-                                format={format}
-                                prompt={prompt}
-                                count={rows}
+                                onOpen={() => setIsPreviewOpen(true)} // ✅ 라우팅 대신 모달 오픈
                             />
                         </div>
 
@@ -138,6 +136,18 @@ export default function SynthorPage() {
                     </div>
                 </div>
             </div>
+
+            {/* ✅ 프리뷰 모달 */}
+            <PreviewModal
+                open={isPreviewOpen}
+                onClose={() => setIsPreviewOpen(false)}
+                state={{
+                    fields: fieldList.fields,
+                    format,
+                    prompt,
+                    initialCount: rows,
+                }}
+            />
         </div>
     );
 }

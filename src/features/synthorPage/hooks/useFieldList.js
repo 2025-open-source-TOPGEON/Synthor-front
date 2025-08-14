@@ -4,18 +4,29 @@ import { useEffect, useState } from "react";
 const LS_KEY = "synthor_fields";
 
 export default function useFieldList() {
+
   const [fields, setFields] = useState(() => {
+
     const saved = localStorage.getItem(LS_KEY);
     if (saved) {
-      try { return JSON.parse(saved); } catch { }
+      try {
+        const parsed = JSON.parse(saved);
+        return (parsed ?? []).map(f => ({
+          ...f,
+          prompt: f.prompt ?? "",
+          options: f.options ?? {},   // ✅ 누락 시만 채움
+        }));
+      } catch { }
     }
+
+
     // 초기 기본값
     return [
-      { id: "1", fieldName: "full_name", fieldType: "Full Name", options: {}, nullRatio: 0 },
-      { id: "2", fieldName: "email", fieldType: "Email Address", options: {}, nullRatio: 0 },
-      { id: "3", fieldName: "password", fieldType: "Password", options: {}, nullRatio: 0 },
-      { id: "4", fieldName: "age", fieldType: "Number", options: {}, nullRatio: 0 },
-      { id: "5", fieldName: "date", fieldType: "Datetime", options: {}, nullRatio: 0 },
+      { id: "1", fieldName: "full_name", fieldType: "Full Name", nullRatio: 0 },
+      { id: "2", fieldName: "email", fieldType: "Email Address", nullRatio: 0 },
+      { id: "3", fieldName: "password", fieldType: "Password", nullRatio: 0 },
+      { id: "4", fieldName: "age", fieldType: "Number", nullRatio: 0 },
+      { id: "5", fieldName: "date", fieldType: "Datetime", nullRatio: 0 },
     ];
   });
 
@@ -41,7 +52,6 @@ export default function useFieldList() {
           id: "1",
           fieldName: "full_name",
           fieldType: "Full name",
-          options: {},
           nullRatio: 0
         }];
       }
