@@ -79,7 +79,7 @@ export default function PreviewPage() {
         const a = document.createElement("a");
         const ext = (state?.format || "json");
         a.href = url;
-        a.download = `preview.${ext}`;
+        a.download = `synthorData.${ext}`;
         document.body.appendChild(a);
         a.click();
         a.remove();
