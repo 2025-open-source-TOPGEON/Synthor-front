@@ -23,17 +23,40 @@ export default function useFieldList() {
     localStorage.setItem(LS_KEY, JSON.stringify(fields));
   }, [fields]);
 
+
   const handleChange = (id, key, value) => {
     setFields((prev) => prev.map((f) => (f.id === id ? { ...f, [key]: value } : f)));
   };
+
   const handleDelete = (id) => setFields((prev) => prev.filter((f) => f.id !== id));
+
+
   const handleAdd = () => {
     setFields((prev) => {
       const last = prev[prev.length - 1];
-      const nextId = String((last ? Number(last.id) : 0) + 1);
-      return [...prev, { id: nextId, fieldName: "", fieldType: "", options: {}, nullRatio: 0 }];
+
+      // 마지막 필드가 없으면 기본값으로 추가
+      if (!last) {
+        return [{
+          id: "1",
+          fieldName: "full_name",
+          fieldType: "Full name",
+          options: {},
+          nullRatio: 0
+        }];
+      }
+
+      // 마지막 필드를 복제하되 id만 변경
+      const nextId = String(Number(last.id) + 1);
+      const newField = {
+        ...last,
+        id: nextId
+      };
+
+      return [...prev, newField];
     });
   };
+
   const reorderFields = (activeId, overId) => {
     setFields((prev) => {
       const oldIndex = prev.findIndex((f) => f.id === activeId);
