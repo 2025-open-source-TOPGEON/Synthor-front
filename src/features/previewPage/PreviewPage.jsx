@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { manualGenerate } from "../../api/dataApi";
 import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
+import { buildGeneratePayload } from "../synthorPage/utils/buildPatload";
+import useDownload from "../../hooks/useDownload";
 
 function PreviewTable({ rows }) {
-
     const columns = useMemo(() => {
         const set = new Set();
         (rows || []).forEach((r) => Object.keys(r || {}).forEach((k) => set.add(k)));
@@ -39,21 +40,30 @@ function PreviewTable({ rows }) {
 }
 
 export default function PreviewPage() {
-    const { state } = useLocation(); // { payload, format, prompt }
+    const { state } = useLocation(); // { fields, format, prompt, initialCount }
     const navigate = useNavigate();
-    const [rows, setRows] = useState(50);   // 하단 Generate용
-    const [result, setResult] = useState(null); // any | string
+    const download = useDownload();
+
+    const format = state?.format || "json";
+    const fields = state?.fields || [];
+    const prompt = state?.prompt;
+    const [rows, setRows] = useState(() => Number(state?.initialCount ?? 50));
+    const [result, setResult] = useState(null);
     const [err, setErr] = useState(null);
 
+    // 최초 프리뷰 자동 생성
     useEffect(() => {
-        if (!state?.payload) {
+        if (!state?.fields) {
             navigate("/");
             return;
         }
         (async () => {
             try {
-                const fmt = state.format || "json";
-                const resp = await manualGenerate(fmt, state.payload);
+                const payload = {
+                    ...buildGeneratePayload(fields, rows),
+                    ...(prompt ? { prompt } : {}), // 최상위 prompt 필요 시 포함
+                };
+                const resp = await manualGenerate(format, payload);
                 setResult(resp);
             } catch (e) {
                 const status = e?.response?.status;
@@ -68,23 +78,7 @@ export default function PreviewPage() {
                 });
             }
         })();
-    }, [state, navigate]);
-
-    const onDownload = () => {
-        const blob = new Blob(
-            [typeof result === "string" ? result : JSON.stringify(result, null, 2)],
-            { type: "text/plain;charset=utf-8" }
-        );
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        const ext = (state?.format || "json");
-        a.href = url;
-        a.download = `synthorData.${ext}`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-    };
+    }, [state, navigate, fields, rows, format, prompt]);
 
     const isJsonArray =
         Array.isArray(result) ||
@@ -101,17 +95,35 @@ export default function PreviewPage() {
         return null;
     }, [result]);
 
+    const handleGenerateAndDownload = async () => {
+        try {
+            const payload = {
+                ...buildGeneratePayload(fields, rows),
+                ...(prompt ? { prompt } : {}),
+            };
+            const resp = await manualGenerate(format, payload);
+            setResult(resp);
+            download(resp, { ext: format, filename: "synthorData" });
+        } catch (e) {
+            const status = e?.response?.status;
+            const statusText = e?.response?.statusText;
+            const body = e?.response?.data;
+            console.error("[manualGenerate error]", { status, statusText, body, e });
+            setErr({
+                status,
+                statusText,
+                body: typeof body === "string" ? body : JSON.stringify(body),
+                message: e?.message || String(e),
+            });
+        }
+    };
+
     return (
         <div className="w-full min-h-screen bg-synthor flex flex-col relative">
             {/* 헤더 */}
             <header className="h-[90px] bg-cyan-400 text-black font-bold text-2xl flex justify-between items-center -mt-6 -ml-6 -mr-6 px-6 rounded-t-[30px] shadow-[0_0_20px_5px_rgba(0,255,255,0.6)]">
                 <h1>Preview</h1>
                 <div className="flex items-center gap-3">
-                    {result && (
-                        <button onClick={onDownload} className="text-sm px-3 py-1 bg-black/10 rounded hover:bg-black/20">
-                            ⬇︎ Download
-                        </button>
-                    )}
                     <button className="text-2xl font-bold hover:opacity-80" onClick={() => window.history.back()}>✕</button>
                 </div>
             </header>
@@ -120,7 +132,7 @@ export default function PreviewPage() {
             <main className="p-6 text-white">
                 {err && (
                     <div className="text-red-400 text-sm border border-red-600 rounded-[10px] p-2 mb-4">
-                        {String(err)}
+                        {err.message || "Error"}
                     </div>
                 )}
 
@@ -137,10 +149,10 @@ export default function PreviewPage() {
                 )}
             </main>
 
-            {/* 하단 컨트롤 (그대로 유지) */}
+            {/* 하단 컨트롤: Generate = 생성+다운로드 */}
             <div className="absolute bottom-6 right-6 flex items-center gap-4">
                 <RowInputBox value={rows} onChange={setRows} />
-                <GenerateButton onClick={() => console.log("Generated Rows:", rows, "Prompt:", state?.prompt)} />
+                <GenerateButton onClick={handleGenerateAndDownload} />
             </div>
         </div>
     );

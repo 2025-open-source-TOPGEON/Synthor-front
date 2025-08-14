@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { buildGeneratePayload } from "../../utils/buildPatload";
 
-export default function PreviewButton({ fields, format = "json", prompt }) {
+export default function PreviewButton({ fields, format = "json", prompt, count = 50 }) {
     const navigate = useNavigate();
 
     const onClick = () => {
-        const payload = buildGeneratePayload(fields, 20);
-        navigate("/preview", { state: { payload, format, prompt } });
+
+        navigate("/preview", { state: { fields, format, prompt, initialCount: count } });
     };
 
     return (

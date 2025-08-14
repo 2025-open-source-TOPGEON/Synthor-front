@@ -6,6 +6,9 @@ import FormatSettingsModal from "./components/FormatSettingsModal";
 import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
 import PreviewButton from "./components/preview/PreviewButton";
+import { buildGeneratePayload } from "./utils/buildPatload";
+import { manualGenerate } from "../../api/dataApi";
+import useDownload from "../../hooks/useDownload";
 
 const ROWS_KEY = "synthor_rows";
 const PROMPT_KEY = "synthor_prompt";
@@ -18,11 +21,21 @@ export default function SynthorPage() {
         return saved ? Number(saved) : 50;
     });
 
-
     useEffect(() => { localStorage.setItem(PROMPT_KEY, prompt); }, [prompt]);
     useEffect(() => { localStorage.setItem(ROWS_KEY, String(rows)); }, [rows]);
 
-    const fieldList = useFieldList(); // { fields, handleChange, handleDelete, handleAdd, reorderFields }
+    const fieldList = useFieldList();
+    const download = useDownload();
+
+    const handleGenerateAndDownload = async () => {
+        const payload = {
+            ...buildGeneratePayload(fieldList.fields, rows),
+            ...(prompt ? { prompt } : {}),
+        };
+        const format = "json"; // 필요 시 상태로 관리
+        const resp = await manualGenerate(format, payload);
+        download(resp, { ext: format, filename: "synthorData" });
+    };
 
     return (
         <div>
@@ -70,13 +83,17 @@ export default function SynthorPage() {
                                 ⚙️ Format Settings
                             </button>
 
-
-                            <PreviewButton fields={fieldList.fields} format="json" prompt={prompt} />
+                            <PreviewButton
+                                fields={fieldList.fields}
+                                format="json"
+                                prompt={prompt}
+                                count={rows}
+                            />
                         </div>
 
                         <div className="flex items-center gap-4">
                             <RowInputBox value={rows} onChange={setRows} />
-                            <GenerateButton onClick={() => console.log("Generated Rows:", rows, "Prompt:", prompt)} />
+                            <GenerateButton onClick={handleGenerateAndDownload} />
                         </div>
                     </div>
                 </div>

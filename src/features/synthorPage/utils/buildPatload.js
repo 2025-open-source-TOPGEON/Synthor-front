@@ -1,4 +1,4 @@
-// UI → 백엔드 타입명 매핑
+
 const TYPE_MAP = {
     // 개인정보
     "Full Name": "full_name",
@@ -88,6 +88,7 @@ function compact(obj) {
  * @param {number} count
  * @returns {DataGenerationRequest}
  */
+
 export function buildGeneratePayload(fields, count = 3) {
     return {
         count,
