@@ -1,27 +1,17 @@
 import React from "react";
-import useFieldList from "../../hooks/useFieldList";
 import useFieldTypeModalState from "../../hooks/useFieldTypeModalState";
 import FieldItem from "./FieldItem";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
-import {
-    DndContext,
-    closestCenter,
-} from "@dnd-kit/core";
-
-import {
-    SortableContext,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-
-
-export default function FieldList() {
-    const { fields, handleChange, handleDelete, handleAdd, reorderFields } = useFieldList();
-
-    const {
-        fieldTypeStates,
-        setFieldType,
-        getFieldType,
-    } = useFieldTypeModalState();
+export default function FieldList({
+    fields,
+    handleChange,
+    handleDelete,
+    handleAdd,
+    reorderFields,
+}) {
+    const { setFieldType, getFieldType } = useFieldTypeModalState();
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -31,10 +21,7 @@ export default function FieldList() {
 
     return (
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <SortableContext
-                items={fields.map((f) => f.id)}
-                strategy={verticalListSortingStrategy}
-            >
+            <SortableContext items={fields.map((f) => f.id)} strategy={verticalListSortingStrategy}>
                 {fields.map((field) => (
                     <FieldItem
                         key={field.id}
@@ -44,8 +31,6 @@ export default function FieldList() {
                         constraint={field.constraint}
                         onChange={handleChange}
                         onDelete={handleDelete}
-
-                        // 타입 설정 상태 관리 전달
                         initialType={getFieldType(field.id, fields)}
                         onSaveType={(name, options, nullRatio) =>
                             setFieldType(field.id, name, options, nullRatio)
@@ -56,8 +41,7 @@ export default function FieldList() {
 
             <button
                 onClick={handleAdd}
-                className="mt-2 w-full h-[60px] border-2 border-dashed border-gray-400 rounded-[15px] text-gray-400
-                   hover:bg-[#8E25E2]/10 transition"
+                className="mt-2 w-full h-[60px] border-2 border-dashed border-gray-400 rounded-[15px] text-gray-400 hover:bg-[#8E25E2]/10 transition"
             >
                 + Add Field
             </button>
