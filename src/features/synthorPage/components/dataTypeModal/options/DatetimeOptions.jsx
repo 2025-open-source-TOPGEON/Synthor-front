@@ -12,7 +12,7 @@ export default function DatetimeOptions({ options, setOptions }) {
         setOptions((prev) => ({
             from: prev.from ?? formatDate(oneYearAgo),
             to: prev.to ?? formatDate(today),
-            format: prev.format ?? "m/d/yyyy",
+            format: prev.format ?? "M/d/yyyy",
             blank: prev.blank ?? 0,
         }));
     }, [setOptions]);
@@ -53,12 +53,12 @@ export default function DatetimeOptions({ options, setOptions }) {
                 className="w-full px-2 py-1 rounded bg-gray-800 border border-gray-600"
             >
                 {/* m/d/yyyy, mm/dd/yyyy, yyyy-mm-dd, yyyy-mm, d/m/yyyy, dd/mm/yyyy */}
-                <option value="m/d/yyyy">m/d/yyyy</option>
+                <option value="M/d/yyyy">M/d/yyyy</option>
                 <option value="yyyy-MM-dd">yyyy-MM-dd</option>
                 <option value="dd/MM/yyyy">dd/MM/yyyy</option>
-                <option value="yyyy-mm">yyyy-mm</option>
-                <option value="d/m/yyyy">d/m/yyyy</option>
-                <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+                <option value="yyyy-MM">yyyy-mm</option>
+                <option value="d/M/yyyy">d/m/yyyy</option>
+                <option value="dd/MM/yyyy">dd/mm/yyyy</option>
             </select>
         </div>
     );

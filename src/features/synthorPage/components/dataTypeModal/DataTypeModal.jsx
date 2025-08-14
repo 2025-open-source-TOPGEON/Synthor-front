@@ -8,7 +8,7 @@ import searchIcon from "../../../../assets/icons/SVG/searchIcon.svg";
 export default function DataTypeModal({
     onClose,
     onSelectType,
-    initialType, // { type, options, nullRatio }
+    initialType,
 }) {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedType, setSelectedType] = useState(null); // { name, options? }

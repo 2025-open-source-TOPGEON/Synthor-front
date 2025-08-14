@@ -85,12 +85,18 @@ export default function FieldItem({
             {isTypeOpen && (
                 <DataTypeModal
                     initialType={initialType}
+
                     onClose={() => setIsTypeOpen(false)}
+
                     onSelectType={({ name, options: nextOptions, nullRatio: nextNull }) => {
+
                         onChange(id, "fieldType", name);
-                        onChange(id, "options", nextOptions);   // ✅ options에 제약 저장
+                        onChange(id, "options", nextOptions);
+
                         if (typeof nextNull === "number") onChange(id, "nullRatio", nextNull);
+
                         onSaveType?.(name, nextOptions, nextNull);
+
                         setIsTypeOpen(false);
                     }}
                 />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PasswordOptions from "./options/PasswordOptions";
-import DatetimeOptions from "./options/ DatetimeOptions";
+import DatetimeOptions from "./options/DatetimeOptions";
 import TimeOptions from "./options/TimeOptions";
 import UrlOptions from "./options/UrlOptions";
 import CreditCardTypeOptions from "./options/CreditCardTypeOptions";
@@ -19,7 +19,7 @@ export default function TypeConfigPanel({
     initialNullRatio = 0,
 }) {
     const [options, setOptions] = useState(initialOptions);
-    const [nullRatio, setNullRatio] = useState(initialNullRatio); // %
+    const [nullRatio, setNullRatio] = useState(initialNullRatio);
 
     // selectedType 또는 초기값이 바뀔 때 동기화
     useEffect(() => {

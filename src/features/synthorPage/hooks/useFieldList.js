@@ -4,11 +4,22 @@ import { useEffect, useState } from "react";
 const LS_KEY = "synthor_fields";
 
 export default function useFieldList() {
+
   const [fields, setFields] = useState(() => {
+
     const saved = localStorage.getItem(LS_KEY);
     if (saved) {
-      try { return JSON.parse(saved); } catch { }
+      try {
+        const parsed = JSON.parse(saved);
+        return (parsed ?? []).map(f => ({
+          ...f,
+          prompt: f.prompt ?? "",
+          options: f.options ?? {},   // ✅ 누락 시만 채움
+        }));
+      } catch { }
     }
+
+
     // 초기 기본값
     return [
       { id: "1", fieldName: "full_name", fieldType: "Full Name", nullRatio: 0 },
