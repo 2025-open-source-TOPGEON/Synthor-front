@@ -1,3 +1,4 @@
+// src/pages/preview/PreviewPage.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { manualGenerate } from "../../api/dataApi";
@@ -5,39 +6,7 @@ import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
 import { buildGeneratePayload } from "../synthorPage/utils/buildPatload";
 import useDownload from "../../hooks/useDownload";
-
-function PreviewTable({ rows }) {
-    const columns = useMemo(() => {
-        const set = new Set();
-        (rows || []).forEach((r) => Object.keys(r || {}).forEach((k) => set.add(k)));
-        return Array.from(set);
-    }, [rows]);
-
-    return (
-        <div className="overflow-auto border border-gray-700 rounded-lg">
-            <table className="min-w-full text-sm">
-                <thead className="bg-gray-800 sticky top-0">
-                    <tr>
-                        {columns.map((c) => (
-                            <th key={c} className="px-3 py-2 text-left font-semibold">{c}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows.map((r, idx) => (
-                        <tr key={idx} className="odd:bg-gray-900 even:bg-gray-950">
-                            {columns.map((c) => (
-                                <td key={c} className="px-3 py-2 align-top">
-                                    {r?.[c] === null || r?.[c] === undefined ? "—" : String(r[c])}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
-}
+import PreviewTable from "../previewPage/PreviewTable";
 
 export default function PreviewPage() {
     const { state } = useLocation(); // { fields, format, prompt, initialCount }
@@ -61,7 +30,7 @@ export default function PreviewPage() {
             try {
                 const payload = {
                     ...buildGeneratePayload(fields, rows),
-                    ...(prompt ? { prompt } : {}), // 최상위 prompt 필요 시 포함
+                    ...(prompt ? { prompt } : {}),
                 };
                 const resp = await manualGenerate(format, payload);
                 setResult(resp);
@@ -80,17 +49,21 @@ export default function PreviewPage() {
         })();
     }, [state, navigate, fields, rows, format, prompt]);
 
+    // JSON 배열 여부 판정
     const isJsonArray =
         Array.isArray(result) ||
-        (typeof result === "string" && result.trim().startsWith("[") && result.trim().endsWith("]"));
+        (typeof result === "string" &&
+            result.trim().startsWith("[") &&
+            result.trim().endsWith("]"));
 
+    // JSON 파싱 (배열만)
     const parsedJsonArray = useMemo(() => {
         if (Array.isArray(result)) return result;
         if (typeof result === "string") {
             try {
                 const parsed = JSON.parse(result);
                 return Array.isArray(parsed) ? parsed : null;
-            } catch { /* noop */ }
+            } catch {/* noop */ }
         }
         return null;
     }, [result]);
@@ -99,6 +72,58 @@ export default function PreviewPage() {
         if (!parsedJsonArray) return null;
         return parsedJsonArray.slice(0, 100);
     }, [parsedJsonArray]);
+
+    const { previewInfo, textPreview } = useMemo(() => {
+        const fallback = { previewInfo: { total: 0, shown: 0, label: "items" }, textPreview: null };
+
+        // JSON 배열이면 테이블에서 처리
+        if (parsedJsonArray) {
+            const total = parsedJsonArray.length;
+            const shown = Math.min(100, total);
+            return { previewInfo: { total, shown, label: "rows" }, textPreview: null };
+        }
+
+        if (typeof result === "string") {
+            const raw = result;
+
+            if (format === "csv") {
+                const lines = raw.split(/\r?\n/);
+                const header = lines[0] ?? "";
+                const dataLines = lines.slice(1).filter((l) => l.trim().length > 0);
+                const total = dataLines.length;
+                const shown = Math.min(100, total);
+                const preview = [header, ...dataLines.slice(0, shown)].join("\n");
+                return { previewInfo: { total, shown, label: "rows" }, textPreview: preview };
+            }
+
+            if (format === "ldif") {
+                const trimmed = raw.trim();
+                const records = trimmed.length ? trimmed.split(/\n\s*\n/) : [];
+                const total = records.length;
+                const shown = Math.min(100, total);
+                const preview = records.slice(0, shown).join("\n\n");
+                return { previewInfo: { total, shown, label: "records" }, textPreview: preview };
+            }
+
+            // XML/HTML/SQL/그 외: 라인 기준
+            const lines = raw.split(/\r?\n/);
+            const total = lines.length;
+            const shown = Math.min(100, total);
+            const preview = lines.slice(0, shown).join("\n");
+            return { previewInfo: { total, shown, label: "lines" }, textPreview: preview };
+        }
+
+        if (result != null) {
+            const str = JSON.stringify(result, null, 2);
+            const lines = str.split(/\r?\n/);
+            const total = lines.length;
+            const shown = Math.min(100, total);
+            const preview = lines.slice(0, shown).join("\n");
+            return { previewInfo: { total, shown, label: "lines" }, textPreview: preview };
+        }
+
+        return fallback;
+    }, [result, format, parsedJsonArray]);
 
     const handleGenerateAndDownload = async () => {
         try {
@@ -125,15 +150,19 @@ export default function PreviewPage() {
 
     return (
         <div className="w-full min-h-screen bg-synthor flex flex-col">
-            {/* 헤더 */}
+
             <header className="h-[90px] bg-cyan-400 text-black font-bold text-2xl flex justify-between items-center -mt-6 -ml-6 -mr-6 px-6 rounded-t-[30px] shadow-[0_0_20px_5px_rgba(0,255,255,0.6)]">
                 <h1>Preview</h1>
                 <div className="flex items-center gap-3">
-                    <button className="text-2xl font-bold hover:opacity-80" onClick={() => window.history.back()}>✕</button>
+                    <button
+                        className="text-2xl font-bold hover:opacity-80"
+                        onClick={() => window.history.back()}
+                    >
+                        ✕
+                    </button>
                 </div>
             </header>
 
-            {/* 본문 */}
             <main className="p-6 text-white flex-1">
                 {err && (
                     <div className="text-red-400 text-sm border border-red-600 rounded-[10px] p-2 mb-4">
@@ -144,30 +173,29 @@ export default function PreviewPage() {
                 {!result && !err && <p>Synthor AI Loading...</p>}
 
                 {result && (
-                    isJsonArray && parsedJsonArray
-                        ? (
-                            <>
-                                <div className="text-xs text-gray-400 mb-2">
-                                    Showing {displayedRows.length} of {parsedJsonArray.length} rows
-                                    {parsedJsonArray.length > 100 && " (download includes all rows)"}
-                                </div>
-                                <PreviewTable rows={displayedRows} />
-                            </>
-                        )
-                        : (
+                    <>
+                        <div className="text-xs text-gray-400 mb-2">
+                            Showing {previewInfo.shown} of {previewInfo.total} {previewInfo.label}
+                            {previewInfo.total > 100 && " (download includes all)"}
+                        </div>
+
+                        {parsedJsonArray ? (
+                            <PreviewTable rows={displayedRows} />
+                        ) : (
                             <pre
                                 className="
-                              font-mono text-sm leading-7 tracking-wide
-                              whitespace-pre-wrap break-words
-                              bg-gray-900 text-gray-100
-                              p-4 rounded-lg border border-gray-700 shadow-inner
-                              max-h-[70vh] overflow-auto
-                            "
+                  font-mono text-sm leading-7 tracking-wide
+                  whitespace-pre-wrap break-words
+                  bg-gray-900 text-gray-100
+                  p-4 rounded-lg border border-gray-700 shadow-inner
+                  max-h-[70vh] overflow-auto
+                "
                             >
-                                {typeof result === "string" ? result : JSON.stringify(result, null, 2)}
+                                {textPreview ??
+                                    (typeof result === "string" ? result : JSON.stringify(result, null, 2))}
                             </pre>
-
-                        )
+                        )}
+                    </>
                 )}
             </main>
 
