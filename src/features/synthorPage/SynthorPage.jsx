@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useFieldList from "../synthorPage/hooks/useFieldList";
 import FieldList from "./components/FieldList/FieldList";
 import DataGenerationPrompt from "./components/DataGenerationPrompt";
@@ -7,10 +7,20 @@ import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
 import PreviewButton from "./components/preview/PreviewButton";
 
+const ROWS_KEY = "synthor_rows";
+const PROMPT_KEY = "synthor_prompt";
+
 export default function SynthorPage() {
-    const [prompt, setPrompt] = useState("");
     const [isFormatOpen, setIsFormatOpen] = useState(false);
-    const [rows, setRows] = useState(50);
+    const [prompt, setPrompt] = useState(() => localStorage.getItem(PROMPT_KEY) || "");
+    const [rows, setRows] = useState(() => {
+        const saved = localStorage.getItem(ROWS_KEY);
+        return saved ? Number(saved) : 50;
+    });
+
+
+    useEffect(() => { localStorage.setItem(PROMPT_KEY, prompt); }, [prompt]);
+    useEffect(() => { localStorage.setItem(ROWS_KEY, String(rows)); }, [rows]);
 
     const fieldList = useFieldList(); // { fields, handleChange, handleDelete, handleAdd, reorderFields }
 
