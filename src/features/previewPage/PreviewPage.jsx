@@ -5,7 +5,7 @@ import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
 
 function PreviewTable({ rows }) {
-    // 모든 행의 key 합집합을 컬럼으로
+
     const columns = useMemo(() => {
         const set = new Set();
         (rows || []).forEach((r) => Object.keys(r || {}).forEach((k) => set.add(k)));
@@ -52,10 +52,20 @@ export default function PreviewPage() {
         }
         (async () => {
             try {
-                const data = await manualGenerate(state.format || "json", state.payload);
-                setResult(data);
+                const fmt = state.format || "json";
+                const resp = await manualGenerate(fmt, state.payload);
+                setResult(resp);
             } catch (e) {
-                setErr(e?.response?.data ?? e?.message ?? String(e));
+                const status = e?.response?.status;
+                const statusText = e?.response?.statusText;
+                const body = e?.response?.data;
+                console.error("[manualGenerate error]", { status, statusText, body, e });
+                setErr({
+                    status,
+                    statusText,
+                    body: typeof body === "string" ? body : JSON.stringify(body),
+                    message: e?.message || String(e),
+                });
             }
         })();
     }, [state, navigate]);
@@ -114,7 +124,7 @@ export default function PreviewPage() {
                     </div>
                 )}
 
-                {!result && !err && <p>로딩 중...</p>}
+                {!result && !err && <p>Synthor AI Loading...</p>}
 
                 {result && (
                     isJsonArray && parsedJsonArray

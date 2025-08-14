@@ -5,7 +5,7 @@ export default function PreviewButton({ fields, format = "json", prompt }) {
     const navigate = useNavigate();
 
     const onClick = () => {
-        const payload = buildGeneratePayload(fields, 3); // 프리뷰는 count=3
+        const payload = buildGeneratePayload(fields, 20);
         navigate("/preview", { state: { payload, format, prompt } });
     };
 
