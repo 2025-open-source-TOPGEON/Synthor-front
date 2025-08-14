@@ -18,7 +18,7 @@ export default function PromptInput({ id, prompt, onChange, selectedType }) {
             <p className="text-s text-gray-200 mb-2">Prompt</p>
             <div className="flex-1 border border-gray-700 focus-within:border-[#8E25E2] rounded-[15px] p-2 bg-transparent">
                 <InputBox
-                    value={prompt ?? ""}
+                    value={prompt}
                     onChange={(e) => onChange(id, "prompt", e.target.value)}
                     placeholder={placeholder}
                     fullWidth={true}
