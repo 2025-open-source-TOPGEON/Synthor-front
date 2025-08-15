@@ -1,77 +1,7 @@
 
-const TYPE_MAP = {
-    // 개인정보
-    "Full Name": "full_name",
-    "First Name": "first_name",
-    "Last Name": "last_name",
-    "Phone": "phone",
 
-    // 주소
-    "Address": "address",
-    "Street Address": "street_address",
-    "City": "city",
-    "State": "state",
-    "Country": "country",
-    "Postal Code": "postal_code",
+import { toBackendType, toUIType } from "../utils/tyoeMapping";
 
-    // 회사/상업
-    "Company Name": "company_name",
-    "Job Title": "job_title",
-    "Department (Corporate)": "department_corporate",
-    "Department (Retail)": "department_retail",
-    "Product Name": "product_name",
-    "Product Category": "product_category",
-    "Catch Phrase": "catch_phrase",
-    "Product Description": "product_description",
-
-    // 기타
-    "Language": "language",
-    "Color": "color",
-
-    // 인터넷/기술
-    "Username": "username",
-    "Password": "password",
-    "Email Address": "email_address",
-    "Domain Name": "domain_name",
-    "URL": "url",
-    "MAC Address": "mac_address",
-    "IPv4 Address": "ip_v4_address",
-    "IPv6 Address": "ip_v6_address",
-    "User Agent": "user_agent",
-    "Avatar": "avatar",
-
-    // 앱/기기
-    "App Name": "app_name",
-    "App Version": "app_version",
-    "Device Model": "device_model",
-    "Device Brand": "device_brand",
-    "Device OS": "device_os",
-
-    // 금융
-    "Credit Card Number": "credit_card_number",
-    "Credit Card Type": "credit_card_type",
-    "Product Price": "product_price",
-    "Currency": "currency",
-    "IBAN": "iban",
-    "SWIFT/BIC": "swift_bic",
-
-    // 기타
-    "Paragraphs": "paragraphs",
-    "Datetime": "datetime",
-    "Time": "time",
-    "Latitude": "latitude",
-    "Longitude": "longitude",
-    "Number": "number",
-
-    // 고정값(예: UI에서 "Fixed" 라벨을 쓰는 경우)
-    "Fixed": "fixed",
-};
-
-export function toBackendType(uiType) {
-    if (!uiType) return "string";
-    if (TYPE_MAP[uiType]) return TYPE_MAP[uiType];
-    return uiType.replaceAll(/\s+/g, "_").replaceAll(/[()]/g, "").toLowerCase();
-}
 
 function compact(obj) {
     // undefined/null/빈문자열 제거
@@ -111,4 +41,38 @@ export function buildGeneratePayload(fields, count = 3) {
             return compact(base);
         }),
     };
+}
+
+
+// 응답 -> UI 필드 변환기 추가
+export function buildUIFieldsFromResponse(respFields, prevFields = []) {
+    // prevFields: id 재사용을 위해 이름 기반 매칭
+    const idByName = new Map(prevFields.map(f => [f.fieldName, f.id]));
+    let nextId = prevFields.length > 0
+        ? String(Math.max(...prevFields.map(f => Number(f.id) || 0)) + 1)
+        : "1";
+
+    const out = (respFields ?? []).map((rf) => {
+        const fieldName = rf.name ?? "field_" + nextId;
+        const existingId = idByName.get(fieldName);
+        const id = existingId ?? (nextId++);
+        return {
+            id: String(id),
+            fieldName,
+            fieldType: toUIType(rf.type),                 // ← 백엔드 타입을 UI 라벨로
+            options: rf.constraints ?? {},                // ← constraints → options
+            nullRatio: typeof rf.nullablePercent === "number" ? rf.nullablePercent : 0,
+            description: rf.description ?? "",
+            // value/prompt 등은 응답에 없으면 비워둠
+        };
+    });
+
+    // id가 겹치지 않도록 최종 보정
+    const seen = new Set();
+    return out.map((f, i) => {
+        let id = f.id;
+        while (seen.has(id)) id = String(Number(id) + 1);
+        seen.add(id);
+        return { ...f, id };
+    });
 }

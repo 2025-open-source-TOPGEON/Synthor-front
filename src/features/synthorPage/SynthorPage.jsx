@@ -8,10 +8,11 @@ import GenerateButton from "../../components/common/button/GenerateButton";
 import RowInputBox from "../../components/common/inputBox/RowInputBox";
 import PreviewButton from "./components/preview/PreviewButton";
 import { buildGeneratePayload } from "./utils/buildPatload";
-import { manualGenerate } from "../../api/dataApi";
 import useDownload from "../../hooks/useDownload";
 import PreviewModal from "../previewPage/PreviewModal";
 import Logo from "../../assets/image/logo.svg";
+import { aiGenerate, manualGenerate } from "../../api/dataApi";
+import { buildUIFieldsFromResponse } from "./utils/buildPatload";
 
 const ROWS_KEY = "synthor_rows";
 const PROMPT_KEY = "synthor_prompt";
@@ -37,14 +38,12 @@ if (isHardReload()) {
     } catch { }
 }
 
+
 export default function SynthorPage() {
     const [isFormatOpen, setIsFormatOpen] = useState(false);
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-    const [format, setFormat] = useState(() => {
-        return localStorage.getItem(FORMAT_KEY) || "json";
-    });
-
+    const [format, setFormat] = useState(() => localStorage.getItem(FORMAT_KEY) || "json");
     const [prompt, setPrompt] = useState(() => localStorage.getItem(PROMPT_KEY) || "");
     const [rows, setRows] = useState(() => {
         const saved = localStorage.getItem(ROWS_KEY);
@@ -58,6 +57,7 @@ export default function SynthorPage() {
     const fieldList = useFieldList();
     const download = useDownload();
 
+    // ① 데이터 다운로드 기존 로직 유지
     const handleGenerateAndDownload = async () => {
         const payload = {
             ...buildGeneratePayload(fieldList.fields, rows),
@@ -67,18 +67,33 @@ export default function SynthorPage() {
         download(resp, { ext: format, filename: "synthorData" });
     };
 
+    // ② 프롬프트 전송 로직 (성공 시에만 전체 치환)
+    const handleSendPrompt = async () => {
+        const body = {
+            ...buildGeneratePayload(fieldList.fields, rows),
+            ...(prompt ? { prompt } : {}), // 프롬프트도 같이 전달 (백엔드가 활용)
+        };
+
+        try {
+            const data = await aiGenerate(body);
+            // 기대 응답: { fields: [...] }
+            if (data && Array.isArray(data.fields) && data.fields.length > 0) {
+                const next = buildUIFieldsFromResponse(data.fields, fieldList.fields);
+                fieldList.replaceAllFields(next);
+            }
+            // 실패/빈 응답이어도 "아무 이벤트 없음" 규칙이라 추가 처리 안 함
+        } catch {
+            // 에러여도 "아무 이벤트 없음" – 잡아서 조용히 무시
+        }
+    };
+
     return (
         <div>
             <header className="-mx-6 border-b border-white pb-4 mb-8 px-6 flex justify-between items-center">
                 <div className="flex items-center gap-3">
-                    <img
-                        src={Logo}
-                        alt="Synthor Logo"
-                        className="w-8 h-8"
-                    />
+                    <img src={Logo} alt="Synthor Logo" className="w-8 h-8" />
                     <h1 className="text-2xl font-bold">Synthor</h1>
                 </div>
-
                 <nav className="space-x-4 text-gray-300">
                     <a href="/about" className="hover:text-white">About</a>
                 </nav>
@@ -87,9 +102,7 @@ export default function SynthorPage() {
             <div className="min-h-screen bg-synthor text-white">
                 <div className="space-y-1 mb-6">
                     <h2 className="text-xl font-semibold">Field Configuration</h2>
-                    <p className="text-gray-400 text-[15px]">
-                        Define the structure of your data by configuring individual fields
-                    </p>
+                    <p className="text-gray-400 text-[15px]">Define the structure of your data by configuring individual fields</p>
                 </div>
 
                 <FieldList
@@ -104,11 +117,11 @@ export default function SynthorPage() {
                     <div className="mt-6">
                         <div className="space-y-1 mb-6">
                             <h2 className="text-xl font-semibold">Data Generation Prompt</h2>
-                            <p className="text-gray-400 text-[15px]">
-                                Describe the data want to generate for more context and customization
-                            </p>
+                            <p className="text-gray-400 text-[15px]">Describe the data want to generate for more context and customization</p>
                         </div>
-                        <DataGenerationPrompt value={prompt} onChange={setPrompt} />
+
+                        {/* ← 전송 버튼 핸들러 연결 */}
+                        <DataGenerationPrompt value={prompt} onChange={setPrompt} onSend={handleSendPrompt} />
                     </div>
 
                     <div className="flex items-center justify-between mt-6">
@@ -132,9 +145,7 @@ export default function SynthorPage() {
                                 )}
                             </div>
 
-                            <PreviewButton
-                                onOpen={() => setIsPreviewOpen(true)}
-                            />
+                            <PreviewButton onOpen={() => setIsPreviewOpen(true)} />
                         </div>
 
                         <div className="flex items-center gap-4">
@@ -144,7 +155,6 @@ export default function SynthorPage() {
                     </div>
                 </div>
             </div>
-
 
             <PreviewModal
                 open={isPreviewOpen}

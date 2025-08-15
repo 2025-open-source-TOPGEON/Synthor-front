@@ -30,3 +30,14 @@ export async function manualGenerate(format, body) {
 
     return res.data;
 }
+
+
+
+export async function aiGenerate(body) {
+    // POST /api/data/ai-generate
+    const res = await axios.post("/api/data/ai-generate", body, {
+        headers: { "Content-Type": "application/json" },
+        responseType: "json",
+    });
+    return res.data;
+}
