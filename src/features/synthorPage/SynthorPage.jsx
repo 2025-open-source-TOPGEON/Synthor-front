@@ -11,7 +11,7 @@ import { buildGeneratePayload } from "./utils/buildPatload";
 import useDownload from "../../hooks/useDownload";
 import PreviewModal from "../previewPage/PreviewModal";
 import Logo from "../../assets/image/logo.svg";
-import { aiGenerate, manualGenerate } from "../../api/dataApi";
+import { aiGenerateWithPrompt, manualGenerate } from "../../api/dataApi";
 import { buildUIFieldsFromResponse } from "./utils/buildPatload";
 
 const ROWS_KEY = "synthor_rows";
@@ -57,7 +57,7 @@ export default function SynthorPage() {
     const fieldList = useFieldList();
     const download = useDownload();
 
-    // ① 데이터 다운로드 기존 로직 유지
+
     const handleGenerateAndDownload = async () => {
         const payload = {
             ...buildGeneratePayload(fieldList.fields, rows),
@@ -67,23 +67,21 @@ export default function SynthorPage() {
         download(resp, { ext: format, filename: "synthorData" });
     };
 
-    // ② 프롬프트 전송 로직 (성공 시에만 전체 치환)
+
     const handleSendPrompt = async () => {
-        const body = {
-            ...buildGeneratePayload(fieldList.fields, rows),
-            ...(prompt ? { prompt } : {}), // 프롬프트도 같이 전달 (백엔드가 활용)
-        };
 
         try {
-            const data = await aiGenerate(body);
-            // 기대 응답: { fields: [...] }
+            if (!prompt?.trim()) return;           // 빈 프롬프트면 호출 안 함
+            const data = await aiGenerateWithPrompt(prompt); // ← 오직 prompt만 전송
+
+
             if (data && Array.isArray(data.fields) && data.fields.length > 0) {
                 const next = buildUIFieldsFromResponse(data.fields, fieldList.fields);
                 fieldList.replaceAllFields(next);
             }
-            // 실패/빈 응답이어도 "아무 이벤트 없음" 규칙이라 추가 처리 안 함
+
         } catch {
-            // 에러여도 "아무 이벤트 없음" – 잡아서 조용히 무시
+
         }
     };
 

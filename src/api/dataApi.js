@@ -32,12 +32,15 @@ export async function manualGenerate(format, body) {
 }
 
 
-
-export async function aiGenerate(body) {
-    // POST /api/data/ai-generate
-    const res = await axios.post("/api/data/ai-generate", body, {
-        headers: { "Content-Type": "application/json" },
-        responseType: "json",
-    });
+export async function aiGenerateWithPrompt(prompt) {
+    const res = await axios.post(
+        "/api/data/ai-generate",
+        { prompt },
+        {
+            headers: { "Content-Type": "application/json" },
+            responseType: "json",
+        }
+    );
     return res.data;
 }
+

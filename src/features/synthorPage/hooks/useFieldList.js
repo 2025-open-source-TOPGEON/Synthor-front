@@ -78,5 +78,10 @@ export default function useFieldList() {
     });
   };
 
-  return { fields, handleChange, handleDelete, handleAdd, reorderFields };
+  // 성공 시 응답으로 전체 교체
+  const replaceAllFields = (next) => {
+    setFields(Array.isArray(next) ? next : []);
+  };
+
+  return { fields, handleChange, handleDelete, handleAdd, reorderFields, replaceAllFields };
 }

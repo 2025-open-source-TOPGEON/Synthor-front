@@ -28,7 +28,9 @@ export default function FieldList({
                         id={field.id}
                         fieldName={field.fieldName}
                         fieldType={field.fieldType}
-                        constraint={field.constraint}
+                        options={field.options}
+                        nullRatio={field.nullRatio}
+                        prompt={field.prompt}
                         onChange={handleChange}
                         onDelete={handleDelete}
                         initialType={getFieldType(field.id, fields)}
