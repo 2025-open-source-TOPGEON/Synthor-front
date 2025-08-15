@@ -30,7 +30,7 @@ export default function TypeConfigPanel({
         setNullRatio(
             typeof initialNullRatio === "number" ? initialNullRatio : 0
         );
-    }, [selectedType, initialNullRatio]);
+    }, [selectedType, initialNullRatio]); 1
 
     if (!selectedType) {
         return <div className="w-full h-full overflow-y-auto px-4 py-2" />;
