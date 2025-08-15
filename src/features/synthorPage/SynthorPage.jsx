@@ -80,7 +80,6 @@ export default function SynthorPage() {
                 </div>
 
                 <nav className="space-x-4 text-gray-300">
-                    <a href="/" className="hover:text-white">Home</a>
                     <a href="/about" className="hover:text-white">About</a>
                 </nav>
             </header>
@@ -146,7 +145,7 @@ export default function SynthorPage() {
                 </div>
             </div>
 
-            {/* ✅ 프리뷰 모달 */}
+
             <PreviewModal
                 open={isPreviewOpen}
                 onClose={() => setIsPreviewOpen(false)}
