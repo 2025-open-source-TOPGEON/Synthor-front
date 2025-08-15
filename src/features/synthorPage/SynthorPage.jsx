@@ -11,6 +11,7 @@ import { buildGeneratePayload } from "./utils/buildPatload";
 import { manualGenerate } from "../../api/dataApi";
 import useDownload from "../../hooks/useDownload";
 import PreviewModal from "../previewPage/PreviewModal";
+import Logo from "../../assets/image/logo.svg";
 
 const ROWS_KEY = "synthor_rows";
 const PROMPT_KEY = "synthor_prompt";
@@ -38,7 +39,7 @@ if (isHardReload()) {
 
 export default function SynthorPage() {
     const [isFormatOpen, setIsFormatOpen] = useState(false);
-    const [isPreviewOpen, setIsPreviewOpen] = useState(false); // ✅ 모달 상태
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
     const [format, setFormat] = useState(() => {
         return localStorage.getItem(FORMAT_KEY) || "json";
@@ -69,7 +70,15 @@ export default function SynthorPage() {
     return (
         <div>
             <header className="-mx-6 border-b border-white pb-4 mb-8 px-6 flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Synthor</h1>
+                <div className="flex items-center gap-3">
+                    <img
+                        src={Logo}
+                        alt="Synthor Logo"
+                        className="w-8 h-8"
+                    />
+                    <h1 className="text-2xl font-bold">Synthor</h1>
+                </div>
+
                 <nav className="space-x-4 text-gray-300">
                     <a href="/" className="hover:text-white">Home</a>
                     <a href="/about" className="hover:text-white">About</a>
@@ -125,7 +134,7 @@ export default function SynthorPage() {
                             </div>
 
                             <PreviewButton
-                                onOpen={() => setIsPreviewOpen(true)} // ✅ 라우팅 대신 모달 오픈
+                                onOpen={() => setIsPreviewOpen(true)}
                             />
                         </div>
 
