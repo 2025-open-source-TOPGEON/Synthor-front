@@ -3,7 +3,7 @@ export const TYPE_MAP = {
     "Full Name": "full_name",
     "First Name": "first_name",
     "Last Name": "last_name",
-    "Phone": "phone",
+    "Phone": "phone_number",
     "Address": "address",
     "Street Address": "street_address",
     "City": "city",

@@ -10,7 +10,7 @@ export const CATEGORY_PLACEHOLDERS = {
         { name: "Username", placeholder: "5-15 chars, lowercase" },
         { name: "Email Address", placeholder: "use only Gmail addresses" },
         { name: "Password", placeholder: "min 8 chars with symbol & number" },
-        { name: "Phone", placeholder: "010-XXXX-XXXX" },
+        { name: "Phone Number", placeholder: "010-XXXX-XXXX" },
         { name: "Avatar", placeholder: "image URL only" },
     ],
 

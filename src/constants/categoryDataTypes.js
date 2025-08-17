@@ -32,7 +32,7 @@ export const CATEGORY_EXAMPLES = {
       examples: ["p@ssW0rd!", "Qwerty123$", "Welcome#456"]
     },
     {
-      name: "Phone",
+      name: "Phone Number",
       examples: ["011-931-9062", "010-9062-1153", "010-1234-5678"]
     },
     {
