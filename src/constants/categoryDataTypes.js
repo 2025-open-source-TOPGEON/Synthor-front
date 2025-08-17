@@ -120,11 +120,11 @@ export const CATEGORY_EXAMPLES = {
       examples: ["Mozilla/5.0", "Chrome/114.0.0.0", "Safari/537.36"]
     },
     {
-      name: "IP Address v4",
+      name: "IP v4 Address",
       examples: ["192.168.1.1", "10.0.0.5", "172.16.0.2"]
     },
     {
-      name: "IP Address v6",
+      name: "IP v6 Address",
       examples: ["2001:0db8:85a3:0000:0000:8a2e:0370:7334", "fe80::1", "2001:db8::ff00:42:8329"]
     },
     {
@@ -181,7 +181,7 @@ export const CATEGORY_EXAMPLES = {
 
   "Finance & Payment": [
     {
-      name: "Credit Card #",
+      name: "Credit Card Number",
       examples: ["4111 1111 1111 1111", "5500 0000 0000 0004", "3400 0000 0000 009"]
     },
     {

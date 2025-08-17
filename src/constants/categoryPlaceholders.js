@@ -63,7 +63,7 @@ export const CATEGORY_PLACEHOLDERS = {
     ],
 
     "Finance & Payment": [
-        { name: "Credit Card #", placeholder: "16-digit VISA/Master format" },
+        { name: "Credit Card Number", placeholder: "16-digit VISA/Master format" },
         { name: "Credit Card Type", placeholder: "VISA, MasterCard, AMEX only" },
         { name: "Bank Name", placeholder: "Korean banks only" },
         { name: "Bank Routing Number", placeholder: "9-digit number" },

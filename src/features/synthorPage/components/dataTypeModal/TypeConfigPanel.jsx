@@ -53,7 +53,7 @@ export default function TypeConfigPanel({
             case "Credit Card Type":
                 return <CreditCardTypeOptions options={options} setOptions={setOptions} />;
 
-            case "Credit Card #":
+            case "Credit Card Number":
                 return <CreditCardNuberOptions options={options} setOptions={setOptions} />;
 
             case "Paragraphs":
